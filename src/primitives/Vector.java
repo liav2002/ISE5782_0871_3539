@@ -49,7 +49,7 @@ public class Vector extends Point {
     /**
      * vector multiplication by scalar
      *
-     * @param d
+     * @param d - scalar, the factor of the product
      * @return multiplied vector
      */
     public Vector scale(double d) {
@@ -59,7 +59,7 @@ public class Vector extends Point {
     /**
      * scalar multiplication between two vectors
      *
-     * @param vec
+     * @param vec - vector, the factor of the dotProduct
      * @return scalar
      */
     public double dotProduct(Vector vec) {
@@ -72,7 +72,7 @@ public class Vector extends Point {
     /**
      * vector multiplication between two vectors
      *
-     * @param vec
+     * @param vec - vector, the factor of the crossProduct
      * @return vector
      */
     public Vector crossProduct(Vector vec) {
@@ -87,7 +87,7 @@ public class Vector extends Point {
      * @return squared length
      */
     public double lengthSquared() {
-        return super.lengthSquared(Point.ZERO);
+        return super.lengthSquared(new Point(super.coordinate));
     }
 
     /**
@@ -96,7 +96,7 @@ public class Vector extends Point {
      * @return length
      */
     public double length() {
-        return super.length(Point.ZERO);
+        return Math.sqrt(this.lengthSquared());
     }
 
     /**
