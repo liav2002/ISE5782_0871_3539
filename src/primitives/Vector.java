@@ -87,7 +87,7 @@ public class Vector extends Point {
      * @return squared length
      */
     public double lengthSquared() {
-        return super.lengthSquared(new Point(super.coordinate));
+        return super.lengthSquared(Point.ZERO);
     }
 
     /**
@@ -104,7 +104,7 @@ public class Vector extends Point {
      *
      * @return a new vector is return
      */
-    public Vector normalized() {
+    public Vector normalize() {
         final double size = this.length();
         return new Vector(new Point(this.coordinate.reduce(size)));
     }

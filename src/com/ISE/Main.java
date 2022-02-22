@@ -55,7 +55,7 @@ public final class Main {
 
         // test vector normalization vs vector length and cross-product
         Vector v = new Vector(1, 2, 3);
-        Vector u = v.normalized();
+        Vector u = v.normalize();
         if (!isZero(u.length() - 1))
             out.println("ERROR: the normalized vector is not a unit vector");
         try { // test that the vectors are co-lined

@@ -2,9 +2,6 @@
 package primitives;
 
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class Ray {
     /**
      * beginning point of ray
@@ -25,13 +22,14 @@ public class Ray {
      */
     public Ray(Point p0, Vector dir) {
         this.p0 = p0;
-        this.dir = dir.normalized();
+        this.dir = dir.normalize();
     }
 
     // Getters
     public Point getP0() {
         return p0;
     }
+
 
     public Vector getDir() {
         return dir;

@@ -16,6 +16,7 @@ public class Point {
         this.coordinate = p.coordinate;
     }
 
+
     public Point(double x, double y, double z) {
         this.coordinate = new Double3(x, y, z);
     }
@@ -41,14 +42,16 @@ public class Point {
 
     }
 
+    public Double3 getDouble3() {
+        return this.coordinate;
+    }
+
     public double length(Point p) {
         return Math.sqrt(this.lengthSquared(p));
     }
 
     public double lengthSquared(Point p) {
-        return (this.coordinate.d1 * p.coordinate.d1) +
-                (this.coordinate.d2 * p.coordinate.d2) +
-                (this.coordinate.d3 * p.coordinate.d3);
+        return (this.coordinate.d1 - p.coordinate.d1) * (this.coordinate.d1 - p.coordinate.d1) + (this.coordinate.d2 - p.coordinate.d2) * (this.coordinate.d2 - p.coordinate.d2) + (this.coordinate.d3 - p.coordinate.d3) * (this.coordinate.d3 - p.coordinate.d3);
     }
 
 
@@ -62,8 +65,6 @@ public class Point {
 
     @Override
     public String toString() {
-        return "Point{" +
-                "coordinate=" + coordinate +
-                '}';
+        return "Point{" + "coordinate=" + coordinate + '}';
     }
 }
