@@ -13,8 +13,8 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for geometries.Tube class
- *
- * @author Eyal
+ * @author1 Eyal
+ * @authon2 Liav Ariel
  */
 public class TubeTest {
 

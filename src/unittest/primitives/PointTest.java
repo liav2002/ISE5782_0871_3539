@@ -9,7 +9,8 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for primitives.Point class
- * @author Eyal
+ * @author1 Eyal
+ * @authon2 Liav Ariel
  */
 class PointTest extends Object {
 

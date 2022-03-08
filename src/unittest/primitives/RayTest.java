@@ -10,6 +10,11 @@ import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
+/**
+ * Unit tests for primitives.Ray class
+ * @author1 Eyal
+ * @authon2 Liav Ariel
+ */
 public class RayTest {
 
 }

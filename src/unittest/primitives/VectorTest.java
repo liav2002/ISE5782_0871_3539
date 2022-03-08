@@ -9,7 +9,8 @@ import static primitives.Util.*;
 
 /**
  * Unit tests for primitives.Vector class
- * @author Eyal
+ * @author1 Eyal
+ * @authon2 Liav Ariel
  */
 
 class VectorTest extends Object {

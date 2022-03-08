@@ -13,8 +13,8 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for geometries.Plane class
- *
- * @author Eyal
+ * @author1 Eyal
+ * @authon2 Liav Ariel
  */
 public class PlaneTest {
 
