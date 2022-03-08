@@ -16,7 +16,11 @@ public class Tube implements Geometry {
 
     @Override
     public Vector getNormal(Point p) {
-        return null;
+        double t = axisRay.getDir().dotProduct(p.subtract(axisRay.getP0()));
+        if (t == 0) { /* point is facing the head of the tube's ray */
+            return p.subtract(axisRay.getP0()).normalize();
+        }
+        return p.subtract(axisRay.getPoint(t)).normalize();
     }
 
     public double getRadius() {

@@ -31,7 +31,7 @@ public class Sphere implements Geometry {
     @Override
     public Vector getNormal(Point p) {
         if (Util.isZero(p.lengthSquared(center) - radius * radius))
-            return new Vector(this.center.subtract(p));
+            return new Vector(this.center.subtract(p)).normalize();
         throw new IllegalArgumentException("Point" + p + " not in the Sphere");
     }
 }

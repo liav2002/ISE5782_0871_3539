@@ -1,7 +1,6 @@
 
 package primitives;
 
-
 public class Ray {
     /**
      * beginning point of ray
@@ -28,6 +27,19 @@ public class Ray {
     // Getters
     public Point getP0() {
         return p0;
+    }
+
+    /**
+     * Gets point on ray
+     *
+     * @param t scale
+     * @return point
+     */
+    public Point getPoint(double t) {
+        if (dir.mult(t).equals(Point.ZERO)) {
+            return p0;
+        }
+        return p0.add(dir.scale(t));
     }
 
 

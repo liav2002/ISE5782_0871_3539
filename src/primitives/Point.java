@@ -51,9 +51,17 @@ public class Point {
     }
 
     public double lengthSquared(Point p) {
-        return (this.coordinate.d1 - p.coordinate.d1) * (this.coordinate.d1 - p.coordinate.d1) + (this.coordinate.d2 - p.coordinate.d2) * (this.coordinate.d2 - p.coordinate.d2) + (this.coordinate.d3 - p.coordinate.d3) * (this.coordinate.d3 - p.coordinate.d3);
+        return (this.coordinate.d1 - p.coordinate.d1) * (this.coordinate.d1 - p.coordinate.d1) +
+                (this.coordinate.d2 - p.coordinate.d2) * (this.coordinate.d2 - p.coordinate.d2) +
+                (this.coordinate.d3 - p.coordinate.d3) * (this.coordinate.d3 - p.coordinate.d3);
     }
 
+
+    Point mult(double multiplier) {
+        return new Point(this.coordinate.d1 * multiplier,
+                this.coordinate.d2 * multiplier,
+                this.coordinate.d3 * multiplier);
+    }
 
     @Override
     public boolean equals(Object o) {

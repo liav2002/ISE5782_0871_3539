@@ -3,6 +3,7 @@ package geometries;
 import primitives.Point;
 import primitives.Vector;
 
+
 public class Plane implements Geometry {
     private Point q0;
     private Vector normal;

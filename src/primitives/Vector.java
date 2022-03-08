@@ -4,6 +4,8 @@ package primitives;
 public class Vector extends Point {
 
     static public final double ACCURACY = 0.00001;
+
+    protected double lenSquared;
     /**
      * the head of the vector
      */
@@ -21,6 +23,7 @@ public class Vector extends Point {
         if (coordinate.equals(Double3.ZERO)) {
             throw new IllegalArgumentException("WRONG INPUT: cannot receive zero vector");
         }
+        this.lenSquared = super.lengthSquared(Point.ZERO);
     }
 
     /**
@@ -33,6 +36,8 @@ public class Vector extends Point {
         if (head.coordinate.equals(Double3.ZERO)) {
             throw new IllegalArgumentException("WRONG INPUT: cannot receive zero vector");
         }
+        this.lenSquared = super.lengthSquared(Point.ZERO);
+
     }
 
     /**
@@ -87,7 +92,7 @@ public class Vector extends Point {
      * @return squared length
      */
     public double lengthSquared() {
-        return super.lengthSquared(Point.ZERO);
+        return this.lenSquared;
     }
 
     /**
