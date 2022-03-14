@@ -56,4 +56,9 @@ public class PlaneTest {
                 pl.getNormal(new Point(0, 0, 1)));
     }
 
+    @Test
+    public void testfindIntsersections() {
+
+    }
+
 }

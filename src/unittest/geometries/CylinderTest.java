@@ -44,4 +44,9 @@ public class CylinderTest {
         assertEquals("getNormal() bad normal on the bottom base of the cylinder",
                 c.getNormal(new Point(0.1, 0, 0.1)), new Vector(0, -1, 0));
     }
+
+    @Test
+    public void testfindIntsersections() {
+
+    }
 }

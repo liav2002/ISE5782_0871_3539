@@ -75,4 +75,16 @@ public class Point {
     public String toString() {
         return "Point{" + "coordinate=" + coordinate + '}';
     }
+
+    public double getX() {
+        return coordinate.d1;
+    }
+
+    public double getY() {
+        return coordinate.d2;
+    }
+
+    public double getZ() {
+        return coordinate.d3;
+    }
 }

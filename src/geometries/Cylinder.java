@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 public class Cylinder extends Tube {
     private double height;
 
@@ -28,6 +30,10 @@ public class Cylinder extends Tube {
         return this.height;
     }
 
+    public interface Intersectable {
+        public List<Point> findIntersections(Ray ray);
+    }
+    
     @Override
     public String toString() {
         return "Cylinder{" + " height=" + height + super.toString() + "}";
