@@ -21,7 +21,7 @@ public class GeometriesTest {
     @Test
     public void findIntersections()
     {
-        //check if list is null (BVA)
+        //TC01: check if list is null (BVA)
         try
         {
             Ray r = new Ray(new Point(1, 1, 0), new Vector(1, 1, 1));
@@ -34,21 +34,21 @@ public class GeometriesTest {
         }
         assertTrue(true);
 
-        //no shapes intersection (BVA)
+        //TC02: no shapes intersection (BVA)
         Ray r = new Ray(new Point(1, 1, 0), new Vector(1, 1, 1));
         Geometries g = new Geometries();
         List<Point> l = g.findIntersections(r);
         assertEquals(0,l.size());
 
-        //one shapes intersection (BVA)
+        //TC03: one shapes intersection (BVA)
         Ray r1 = new Ray(new Point(1, 1, 0), new Vector(1, 1, 1));
         Geometries g1 = new Geometries();
         l=g.findIntersections(r);
         assertEquals(1,l.size());
 
-        //not all shapes intersections (EP)
+        //TC04: not all shapes intersections (EP)
 
-        //all shapes intersections (BVA)
+        //TC05: all shapes intersections (BVA)
 
     }
 }
