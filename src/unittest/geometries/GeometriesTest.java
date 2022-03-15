@@ -1,6 +1,9 @@
 package unittest.geometries;
 
 import geometries.Geometries;
+import geometries.Polygon;
+import geometries.Sphere;
+import geometries.Triangle;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Ray;
@@ -19,36 +22,39 @@ import static org.junit.Assert.*;
 
 public class GeometriesTest {
     @Test
-    public void findIntersections()
-    {
-        //TC01: check if list is null (BVA)
-        try
-        {
-            Ray r = new Ray(new Point(1, 1, 0), new Vector(1, 1, 1));
-            Geometries g = new Geometries();
-            g.findIntersections(r);
+    public void findIntersections() {
+        Geometries geos = new Geometries(
+                new Sphere(new Point(2d, 2d, 0), 1d),
+                new Triangle(new Point(-3d, 1d, 0), new Point(-3d, 4d, 1d), new Point(-3d, 4d, -1d)),
+                new Polygon(new Point(5d, 4d, -1d), new Point(5d, 4d, 1d), new Point(5d, 1d, 1d),new Point(5d, 1d, 0)));
 
-            fail("list is null");
-        } catch (IllegalArgumentException ex) {
-            assertEquals("list is null", ex.getMessage());
-        }
-        assertTrue(true);
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Not all the shapes are intersects
+        List<Point> result = geos.findIntersections(new Ray(new Point3D(0, 2d, 0),
+                new Vector(1d, 0, 0)));
 
-        //TC02: no shapes intersection (BVA)
-        Ray r = new Ray(new Point(1, 1, 0), new Vector(1, 1, 1));
-        Geometries g = new Geometries();
-        List<Point> l = g.findIntersections(r);
-        assertEquals(0,l.size());
+        assertEquals("Some of the shapes are intersects", 3, result.size());
 
-        //TC03: one shapes intersection (BVA)
-        Ray r1 = new Ray(new Point(1, 1, 0), new Vector(1, 1, 1));
-        Geometries g1 = new Geometries();
-        l=g.findIntersections(r);
-        assertEquals(1,l.size());
+        // =============== Boundary Values Tests ==================
+        // TC02: All shapes are intersects
+        result = geos.findIntersections(new Ray(new Point(-4d, 2d, 0),
+                new Vector(1d, 0, 0)));
+        assertEquals("All shapes are intersects", 4, result.size());
 
-        //TC04: not all shapes intersections (EP)
+        // TC03: One shape only intersects
+        result = geos.findIntersections(new Ray(new Point(-1d, 2d, 0),
+                new Vector(-1d, 0, 0)));
+        assertEquals("One shape only intersects", 1, result.size());
 
-        //TC05: all shapes intersections (BVA)
+        // TC04: No shape is intersects
+        result = geos.findIntersections(new Ray(new Point(8d, 2d, 0),
+                new Vector(1d, 0, 0)));
+        assertNull("No shape is intersects", result);
 
+        // TC05: List is empty
+        geos = new Geometries();
+        result = geos.findIntersections(new Ray(new Point(-1d, 2d, 0),
+                new Vector(-1d, 0, 0)));
+        assertNull("List is empty", result);
     }
 }

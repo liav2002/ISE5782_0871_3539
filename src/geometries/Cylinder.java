@@ -30,8 +30,9 @@ public class Cylinder extends Tube {
         return this.height;
     }
 
-    public interface Intersectable {
-        public List<Point> findIntersections(Ray ray);
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null;
     }
     
     @Override
