@@ -12,5 +12,5 @@ import java.util.List;
  * @authon2 Liav Ariel
  */
 public interface Intersectable {
-    public List<Point> findIntersections(Ray ray);
+    List<Point> findIntersections(Ray ray);
 }
