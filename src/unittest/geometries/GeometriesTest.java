@@ -21,6 +21,10 @@ import static org.junit.Assert.*;
  */
 
 public class GeometriesTest {
+    /**
+     * Test method for {@link geometries.Geometries#findIntersections(Ray)}.
+     */
+
     @Test
     public void findIntersections() {
         Geometries geos = new Geometries(
@@ -36,22 +40,22 @@ public class GeometriesTest {
         assertEquals("Some of the shapes are intersects", 3, result.size());
 
         // =============== Boundary Values Tests ==================
-        // TC02: All shapes are intersects
+        // TC11: All shapes are intersects
         result = geos.findIntersections(new Ray(new Point(-4d, 2d, 0),
                 new Vector(1d, 0, 0)));
         assertEquals("All shapes are intersects", 4, result.size());
 
-        // TC03: One shape only intersects
+        // TC12: One shape only intersects
         result = geos.findIntersections(new Ray(new Point(-1d, 2d, 0),
                 new Vector(-1d, 0, 0)));
         assertEquals("One shape only intersects", 1, result.size());
 
-        // TC04: No shape is intersects
+        // TC13: No shape is intersects
         result = geos.findIntersections(new Ray(new Point(8d, 2d, 0),
                 new Vector(1d, 0, 0)));
         assertNull("No shape is intersects", result);
 
-        // TC05: List is empty
+        // TC14: List is empty
         geos = new Geometries();
         result = geos.findIntersections(new Ray(new Point(-1d, 2d, 0),
                 new Vector(-1d, 0, 0)));
