@@ -4,7 +4,7 @@ import geometries.Geometries;
 import geometries.Polygon;
 import geometries.Sphere;
 import geometries.Triangle;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -30,7 +30,7 @@ public class GeometriesTest {
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Not all the shapes are intersects
-        List<Point> result = geos.findIntersections(new Ray(new Point3D(0, 2d, 0),
+        List<Point> result = geos.findIntersections(new Ray(new Point(0, 2d, 0),
                 new Vector(1d, 0, 0)));
 
         assertEquals("Some of the shapes are intersects", 3, result.size());
