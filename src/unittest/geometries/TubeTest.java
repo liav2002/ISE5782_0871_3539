@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
 
 /**
  * Unit tests for geometries.Tube class
+ *
  * @author1 Eyal
  * @authon2 Liav Ariel
  */
@@ -51,18 +52,18 @@ public class TubeTest {
         Tube tb = new Tube(1, new Ray(new Point(5d, 0, 0), new Vector(0, 1d, 0)));
         Ray ray = new Ray(new Point(0, 2d, 0), new Vector(1d, 0, 0));
 
-        assertEquals("basic intersection test",ray.getPoint(4),tb.findIntersections(ray).get(0));
-        assertEquals("basic intersection test",ray.getPoint(6),tb.findIntersections(ray).get(1));
+        assertEquals("basic intersection test", ray.getPoint(4), tb.findIntersections(ray).get(0));
+        assertEquals("basic intersection test", ray.getPoint(6), tb.findIntersections(ray).get(1));
 
         //TC02: The ray parallel to the tube and outside from him
-        tb=new Tube(20, new Ray(new Point(3,0,0),new Vector(0,1,0)));
-        ray = new Ray(new Point(0,5,-25),new Vector(0,1,0));
-        assertNull("the ray is parallel to the tube",tb.findIntersections(ray));
+        tb = new Tube(20, new Ray(new Point(3, 0, 0), new Vector(0, 1, 0)));
+        ray = new Ray(new Point(0, 5, -25), new Vector(0, 1, 0));
+        assertNull("the ray is parallel to the tube", tb.findIntersections(ray));
 
         //TC03: The ray parallel to the tube and in  inside him
-        tb=new Tube(20, new Ray(new Point(3,0,0),new Vector(0,1,0)));
-        ray = new Ray(new Point(0,5,0),new Vector(0,1,0));
-        assertNull("the ray is parallel to the tube",tb.findIntersections(ray));
+        tb = new Tube(20, new Ray(new Point(3, 0, 0), new Vector(0, 1, 0)));
+        ray = new Ray(new Point(0, 5, 0), new Vector(0, 1, 0));
+        assertNull("the ray is parallel to the tube", tb.findIntersections(ray));
     }
 
 }

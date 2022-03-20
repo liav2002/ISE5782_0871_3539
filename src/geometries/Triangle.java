@@ -15,10 +15,5 @@ public class Triangle extends Polygon {
         return "Triangle{" + super.toString() + "}";
     }
 
-    @Override
-    public List<Point> findIntersections(Ray ray)
-    {
-        return null;
-    }
 
 }

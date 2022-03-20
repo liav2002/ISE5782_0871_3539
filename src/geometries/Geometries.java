@@ -36,8 +36,24 @@ public class Geometries implements Intersectable {
         return list;
     }
 
+    /**
+     * Implement interface function
+     *
+     * @param ray the interacting ray
+     * @return all intersections points
+     */
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null;
+        List<Point> ret = new LinkedList<>();
+        for (Intersectable shape : list) {
+            List intersection = shape.findIntersections(ray);
+            if (intersection == null) {
+                continue;
+            } // if there is no intersections points - continue
+            for (Point pnt : shape.findIntersections(ray)) {
+                ret.add(pnt);
+            }
+        }
+        return ret.isEmpty() ? null : ret;
     }
 }

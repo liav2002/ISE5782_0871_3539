@@ -30,7 +30,7 @@ public class GeometriesTest {
         Geometries geos = new Geometries(
                 new Sphere(new Point(2d, 2d, 0), 1d),
                 new Triangle(new Point(-3d, 1d, 0), new Point(-3d, 4d, 1d), new Point(-3d, 4d, -1d)),
-                new Polygon(new Point(5d, 4d, -1d), new Point(5d, 4d, 1d), new Point(5d, 1d, 1d),new Point(5d, 1d, 0)));
+                new Polygon(new Point(5d, 4d, -1d), new Point(5d, 4d, 1d), new Point(5d, 1d, 1d), new Point(5d, 1d, 0)));
 
         // ============ Equivalence Partitions Tests ==============
         // TC01: Not all the shapes are intersects
