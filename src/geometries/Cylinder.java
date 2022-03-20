@@ -31,9 +31,14 @@ public class Cylinder extends Tube {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        return super.findIntersections(ray);
+    public List<Point> findIntersections(Ray ray){
+        List<Point> result = super.findIntersections(ray);
+        result.removeIf(point->onCylinder(point));
+        return null;
+    }
 
+    private boolean onCylinder(Point pt){
+        return false;
     }
 
     @Override

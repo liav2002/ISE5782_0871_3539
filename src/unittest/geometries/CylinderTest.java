@@ -46,4 +46,5 @@ public class CylinderTest {
                 c.getNormal(new Point(0.1, 0, 0.1)), new Vector(0, -1, 0));
     }
 
+
 }
