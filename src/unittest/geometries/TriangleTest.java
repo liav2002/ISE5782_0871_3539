@@ -10,11 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Unit tests for geometries.Triangle class
- *
- * @author Yosef & Aaron
- */
+
 public class TriangleTest {
 
     /**

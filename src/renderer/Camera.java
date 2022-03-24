@@ -7,33 +7,17 @@ import primitives.Vector;
 
 public class Camera {
     private Point position;
-    private Vector v1;
-    private Vector v2;
-    private Vector v3;
 
-    private double height;
-    private double width;
-    private double distance;
+    private Vector v1; //Inside
+    private Vector v2; // Up
+    private Vector v3; // Right
 
 
-    /**
-     * getters
-     */
-    public Point getPosition() {
-        return position;
-    }
+    // the view plane
+    private double height;  // the height of the camera from the screen
+    private double width;  // the width of the camera from the screen
+    private double distance; // the distance of the camera from the screen
 
-    public Vector getV1() {
-        return v1;
-    }
-
-    public Vector getV2() {
-        return v2;
-    }
-
-    public Vector getV3() {
-        return v3;
-    }
 
     /**
      * constructor
@@ -52,7 +36,25 @@ public class Camera {
             throw new IllegalArgumentException("Non vertical");
 
         v3 = this.v1.crossProduct(this.v2);
-        // the cross product between 2 normalized vector is also normalize
+        // the cross product between 2 normalized vector is also normalize!
+    }
+
+
+    // getters
+    public Point getPosition() {
+        return position;
+    }
+
+    public Vector getV1() {
+        return v1;
+    }
+
+    public Vector getV2() {
+        return v2;
+    }
+
+    public Vector getV3() {
+        return v3;
     }
 
     public Camera setVPSize(double w, double h) {
@@ -71,19 +73,24 @@ public class Camera {
     /**
      * Generate a ray from camera to a middle of a given pixel
      *
-     * @param nX - number of pixels for width
-     * @param nY - number of pixels for height
-     * @param j  - number of column in row
-     * @param i  - number of row in column
+     * @param nX - number of columns
+     * @param nY - number of rows
+     * @param j  - the pixel index: number of column in row
+     * @param i  - the pixel index: number of row in column
      * @return A ray from the camera to a given pixel
      */
     public Ray constructRay(int nX, int nY, int j, int i) {
+        // the point that is in the image center = position + (distance * v1)
         Point imageCenter = position.add(v1.scale(distance));
 
-        // calculate the pixel center
+
+        // Calculating the pixel center:
+        // (height / nY): is the height ratio
+        // (width / nY): is the width ratio
         double yI = -1 * (i - (nY - 1) / 2d) * height / nY;
         double xJ = (j - (nX - 1) / 2d) * width / nX;
 
+        // Checking if the xJ and yI are zero, if not, it will add the xJ and yI to the imageCenter.
         if (!Util.isZero(xJ)) imageCenter = imageCenter.add(v3.scale(xJ));
         if (!Util.isZero(yI)) imageCenter = imageCenter.add(v2.scale(yI));
 
