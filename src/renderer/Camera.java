@@ -1,9 +1,8 @@
 package renderer;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Util;
-import primitives.Vector;
+import primitives.*;
+
+import java.util.MissingResourceException;
 
 public class Camera {
     private Point position;
@@ -17,6 +16,9 @@ public class Camera {
     private double height;  // the height of the camera from the screen
     private double width;  // the width of the camera from the screen
     private double distance; // the distance of the camera from the screen
+
+    private ImageWriter imageWriter;
+    private RayTracerBase rayTracer;
 
 
     /**
@@ -95,5 +97,74 @@ public class Camera {
         if (!Util.isZero(yI)) imageCenter = imageCenter.add(v2.scale(yI));
 
         return new Ray(position, imageCenter.subtract(position));
+    }
+
+    /**
+     * Prints a grid of the specified color on the image
+     *
+     * @param interval The interval between grid lines.
+     * @param color The color of the grid lines.
+     */
+    public void printGrid(int interval, Color color) {
+        imageWriter.printGrid(interval, color);
+    }
+
+    /**
+     * Given the imageWriter and rayTracer, render the image
+     */
+    public void renderImage() {
+        try {
+            if (imageWriter == null) {
+                throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
+            }
+            if (rayTracer == null) {
+                throw new MissingResourceException("missing resource", RayTracerBasic.class.getName(), "");
+            }
+
+            //rendering the image
+            int nX = imageWriter.getNx();
+            int nY = imageWriter.getNy();
+            for (int i = 0; i < nX; i++) {
+                for (int j = 0; j < nY; j++) {
+                    Ray ray = constructRay(nX, nY, j, i);
+                    Color pixelColor = rayTracer.traceRay(ray);
+                    imageWriter.writePixel(j, i, pixelColor);
+                }
+            }
+        } catch (MissingResourceException e) {
+            throw new UnsupportedOperationException("Not implemented yet" + e.getClassName());
+        }
+    }
+
+
+    /**
+     * This function sets the image writer for the camera
+     *
+     * @param imageWriter The ImageWriter to use for writing images.
+     * @return This.
+     */
+    public Camera setImageWriter(ImageWriter imageWriter) {
+        this.imageWriter = imageWriter;
+        return this;
+    }
+
+
+    /**
+     * It sets the ray tracer to be used by the camera.
+     *
+     * @param rayTracer The ray tracer to use.
+     * @return This.
+     */
+    public Camera setRayTracer(RayTracerBase rayTracer) {
+        this.rayTracer = rayTracer;
+        return this;
+    }
+
+
+    /**
+     * Write the image to the image file
+     */
+    public void writeToImage() {
+        imageWriter.writeToImage();
     }
 }

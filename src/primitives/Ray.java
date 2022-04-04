@@ -1,6 +1,8 @@
 
 package primitives;
 
+import java.util.LinkedList;
+
 public class Ray {
     /**
      * beginning point of ray
@@ -54,6 +56,25 @@ public class Ray {
         return (o instanceof Ray) &&
                 this.p0.equals(((Ray) o).p0) &&
                 this.dir.equals(((Ray) o).dir);
+    }
+
+    public Point findClosestPoint(LinkedList<Point> intersections) {
+        if (intersections == null) {
+            return null;
+        }
+
+        Point ClosestPoint = intersections.getFirst();
+        double shortestD = p0.lengthSquared(ClosestPoint);
+        double currentD;
+
+        for (Point point : intersections) {
+            currentD = p0.lengthSquared(point);
+            if (currentD < shortestD) {
+                shortestD = currentD;
+                ClosestPoint = point;
+            }
+        }
+        return ClosestPoint;
     }
 
     @Override
