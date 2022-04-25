@@ -7,7 +7,7 @@
  *  Lecture: Yair Goldstein.
  */
 
-package unittest.primitives;
+package unittests.primitives;
 
 import org.junit.jupiter.api.Test;
 import primitives.Vector;

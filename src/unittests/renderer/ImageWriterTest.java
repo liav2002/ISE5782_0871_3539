@@ -1,19 +1,8 @@
-/*
- *  Mini Project in Introduction to Software Engineering.
- *
- *  @author1  Liav Ariel (212830871), halkadar@g.jct.ac.il
- *  @author2  Eyal Seckbach (324863539), seyal613@gmail.com
- *
- *  Lecture: Yair Goldstein.
- */
-
-package unittest.renderer;
+package unittests.renderer;
 
 import org.junit.jupiter.api.Test;
 import primitives.Color;
 import renderer.ImageWriter;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ImageWriterTest {
 

@@ -7,15 +7,13 @@
  *  Lecture: Yair Goldstein.
  */
 
-package unittest.primitives;
+package unittests.primitives;
 
 import org.junit.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
@@ -49,7 +47,7 @@ public class RayTest {
         R1 = new Ray(new Point(1, 0, 1), new Vector(1, 0, 0));
         L.clear();
         Ray finalR = R1;
-        assertThrows("ERROR: findClosestPoint() does not work well.", NoSuchElementException.class, () -> finalR.findClosestPoint(L));
+        assertEquals("ERROR: findClosestPoint() does not work well.", null, finalR.findClosestPoint(L));
 
         //Test 3
         //Closest Point is 1st in list

@@ -7,7 +7,7 @@
  *  Lecture: Yair Goldstein.
  */
 
-package unittest.renderer;
+package unittests.renderer;
 
 import static org.junit.jupiter.api.Assertions.*;
 

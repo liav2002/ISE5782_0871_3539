@@ -7,8 +7,9 @@
  *  Lecture: Yair Goldstein.
  */
 
-package unittest.primitives;
+package unittests.primitives;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Vector;
@@ -46,7 +47,7 @@ class PointTest extends Object {
         Point p = new Point(1, 2, 3);
         // ============ Equivalence Partitions Tests ==============
         // TC01: test point submission
-        assertEquals("subtract() Point - Vector does not work correctly", 0, p.length(p), 0.0001d);
+        assertEquals("subtract() Point - Vector does not work correctly", 0, p.distance(p), 0.0001d);
 
     }
 
@@ -55,7 +56,8 @@ class PointTest extends Object {
         Point p = new Point(1, 2, 3);
         // ============ Equivalence Partitions Tests ==============
         // TC01: test point submission
-        assertEquals("subtract() Point - Vector does not work correctly", 0, p.lengthSquared(p), 0.0001d);
+        assertEquals("subtract() Point - Vector does not work correctly", 0, p.distanceSquared(p), 0.0001d);
+        Assertions.assertEquals(14, p.distanceSquared(Point.ZERO), "");
 
     }
 }

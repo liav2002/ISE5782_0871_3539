@@ -15,9 +15,8 @@ import primitives.Util;
 import primitives.Vector;
 
 import java.util.LinkedList;
-import java.util.List;
 
-public class Sphere implements Geometry {
+public class Sphere extends Geometry {
     private Point center;
     private double radius;
 
@@ -41,45 +40,36 @@ public class Sphere implements Geometry {
         return "Sphere{" + " center=" + center + " radius = " + this.radius + "}";
     }
 
+
+
     @Override
-    public List<Point> findIntersections(Ray ray) {
-
-        if(center.equals(ray.getP0())){ // Ray head is the center of the sphere
-            return List.of(center.add(ray.getDir().scale(radius)));
-        }
-
+    protected LinkedList<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        LinkedList<GeoPoint> L = new LinkedList<GeoPoint>();
         Vector u = center.subtract(ray.getP0());
-        double tm = Util.alignZero(ray.getDir().dotProduct(u));
-        double d=Util.alignZero(Math.sqrt(u.lengthSquared()-tm*tm));
-
-        if (d>=radius) { // no points to return
+        double Tm = ray.getDir().dotProduct(u);
+        double d = Math.sqrt(u.length() * u.length() - (Tm * Tm));
+        if (d >= radius) {
             return null;
         }
-
-        double th1 = Util.alignZero(Math.sqrt(radius*radius-d*d));
-        double th2 = Util.alignZero(-1*Math.sqrt(radius*radius-d*d));
-
-        if(tm-th1<=0&&tm-th2<=0) // no points to return
-        {
+        double Th = Math.sqrt(radius * radius - (d * d));
+        double T1 = Util.alignZero(Tm - Th);
+        double T2 = Util.alignZero(Tm + Th);
+        if (T1 > 0) {
+            L.add(new GeoPoint(this, ray.getPoint(T1)));
+        }
+        if (T2 > 0) {
+            L.add(new GeoPoint(this, ray.getPoint(T2)));
+        }
+        if (L.isEmpty()) {
             return null;
         }
-
-        List<Point> ret = new LinkedList<>();
-        if (tm-th1>0){
-            Point pnt1 = ray.getPoint(tm-th1);
-            ret.add(pnt1);
-        }
-        if (tm-th2>0){
-            Point pnt2 = ray.getPoint(tm-th2);
-            ret.add(pnt2);
-        }
-        return ret;
+        return L;
     }
 
     @Override
     public Vector getNormal(Point p) {
-        if (Util.isZero(p.lengthSquared(center) - radius * radius))
+        if (Util.isZero(p.distanceSquared(center) - radius * radius))
             return new Vector(this.center.subtract(p)).normalize();
-        throw new IllegalArgumentException("Point" + p + " not in the Sphere");
+        throw new IllegalArgumentException("Point" + p + " not in Sphere " + this);
     }
 }

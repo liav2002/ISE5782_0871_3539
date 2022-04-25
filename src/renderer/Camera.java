@@ -121,7 +121,7 @@ public class Camera {
     /**
      * Given the imageWriter and rayTracer, render the image
      */
-    public void renderImage() {
+    public Camera renderImage() {
         try {
             if (imageWriter == null) {
                 throw new MissingResourceException("missing resource", ImageWriter.class.getName(), "");
@@ -143,6 +143,7 @@ public class Camera {
         } catch (MissingResourceException e) {
             throw new UnsupportedOperationException("Not implemented yet" + e.getClassName());
         }
+        return this;
     }
 
 

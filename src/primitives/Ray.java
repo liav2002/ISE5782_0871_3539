@@ -9,7 +9,9 @@
 
 package primitives;
 
-import java.util.LinkedList;
+import geometries.Intersectable.GeoPoint;
+
+import java.util.List;
 
 public class Ray {
     /**
@@ -66,17 +68,29 @@ public class Ray {
                 this.dir.equals(((Ray) o).dir);
     }
 
-    public Point findClosestPoint(LinkedList<Point> intersections) {
-        if (intersections == null) {
+    public Point findClosestPoint(List<Point> points) {
+        return points == null || points.isEmpty() ? null
+                : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+    }
+
+
+    /**
+     * It finds the closest intersection point to the camera
+     *
+     * @param intersections a list of all the intersections found by the ray.
+     * @return The closest point to the ray's starting point.
+     */
+    public GeoPoint findClosestGeoPoint(List<GeoPoint> intersections) {
+        if (intersections == null || intersections.isEmpty()) {
             return null;
         }
 
-        Point ClosestPoint = intersections.getFirst();
-        double shortestD = p0.lengthSquared(ClosestPoint);
+        GeoPoint ClosestPoint = intersections.get(0);
+        double shortestD = p0.distanceSquared(ClosestPoint.point);
         double currentD;
 
-        for (Point point : intersections) {
-            currentD = p0.lengthSquared(point);
+        for (GeoPoint point : intersections) {
+            currentD = p0.distanceSquared(point.point);
             if (currentD < shortestD) {
                 shortestD = currentD;
                 ClosestPoint = point;

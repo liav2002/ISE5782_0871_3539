@@ -17,7 +17,7 @@ import primitives.Vector;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Tube implements Geometry {
+public class Tube extends Geometry {
     protected double radius;
     protected Ray axisRay;
 
@@ -103,128 +103,8 @@ public class Tube implements Geometry {
 //    }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        //for using less functions we storing all teh parameters in other variables
-        double rayOriginX = ray.getP0().getX();
-        double rayOriginY = ray.getP0().getY();
-        double rayOriginZ = ray.getP0().getZ();
-        double tubeOriginX = this.axisRay.getP0().getX();
-        double tubeOriginY = this.axisRay.getP0().getY();
-        double tubeOriginZ = this.axisRay.getP0().getZ();
-        double rayDirectionX = ray.getDir().getX();
-        double rayDirectionY = ray.getDir().getY();
-        double rayDirectionZ = ray.getDir().getZ();
-        double tubeDirectionX = this.axisRay.getDir().getX();
-        double tubeDirectionY = this.axisRay.getDir().getY();
-        double tubeDirectionZ = this.axisRay.getDir().getZ();
-
-        //the discriminate for the quadratic equation
-        double v2 = 2 * rayOriginY * rayDirectionY * tubeDirectionX * tubeDirectionX
-                + 2 * rayOriginZ * rayDirectionZ * tubeDirectionX * tubeDirectionX
-                - 2 * rayDirectionY * tubeOriginY * tubeDirectionX * tubeDirectionX
-                - 2 * rayDirectionZ * tubeOriginZ * tubeDirectionX * tubeDirectionX
-                - 2 * rayOriginY * rayDirectionX * tubeDirectionX * tubeDirectionY
-                - 2 * rayOriginX * rayDirectionY * tubeDirectionX * tubeDirectionY
-                + 2 * rayDirectionY * tubeOriginX * tubeDirectionX * tubeDirectionY
-                + 2 * rayDirectionX * tubeOriginY * tubeDirectionX * tubeDirectionY
-                + 2 * rayOriginX * rayDirectionX * tubeDirectionY * tubeDirectionY
-                + 2 * rayOriginZ * rayDirectionZ * tubeDirectionY * tubeDirectionY
-                - 2 * rayDirectionX * tubeOriginX * tubeDirectionY * tubeDirectionY
-                - 2 * rayDirectionZ * tubeOriginZ * tubeDirectionY * tubeDirectionY
-                - 2 * rayOriginZ * rayDirectionX * tubeDirectionX * tubeDirectionZ
-                - 2 * rayOriginX * rayDirectionZ * tubeDirectionX * tubeDirectionZ
-                + 2 * rayDirectionZ * tubeOriginX * tubeDirectionX * tubeDirectionZ
-                + 2 * rayDirectionX * tubeOriginZ * tubeDirectionX * tubeDirectionZ
-                - 2 * rayOriginZ * rayDirectionY * tubeDirectionY * tubeDirectionZ
-                - 2 * rayOriginY * rayDirectionZ * tubeDirectionY * tubeDirectionZ
-                + 2 * rayDirectionZ * tubeOriginY * tubeDirectionY * tubeDirectionZ
-                + 2 * rayDirectionY * tubeOriginZ * tubeDirectionY * tubeDirectionZ
-                + 2 * rayOriginX * rayDirectionX * tubeDirectionZ * tubeDirectionZ
-                + 2 * rayOriginY * rayDirectionY * tubeDirectionZ * tubeDirectionZ
-                - 2 * rayDirectionX * tubeOriginX * tubeDirectionZ * tubeDirectionZ
-                - 2 * rayDirectionY * tubeOriginY * tubeDirectionZ * tubeDirectionZ;
-        double v1 = v2;
-        double v = v2;
-        double v3 = rayDirectionY * rayDirectionY * tubeDirectionX * tubeDirectionX + rayDirectionZ * rayDirectionZ * tubeDirectionX * tubeDirectionX
-                - 2 * rayDirectionX * rayDirectionY * tubeDirectionX * tubeDirectionY + rayDirectionX * rayDirectionX * tubeDirectionY * tubeDirectionY + rayDirectionZ * rayDirectionZ * tubeDirectionY * tubeDirectionY
-                - 2 * rayDirectionX * rayDirectionZ * tubeDirectionX * tubeDirectionZ
-                - 2 * rayDirectionY * rayDirectionZ * tubeDirectionY * tubeDirectionZ + rayDirectionX * rayDirectionX * tubeDirectionZ * tubeDirectionZ + rayDirectionY * rayDirectionY * tubeDirectionZ * tubeDirectionZ;
-        double discriminant = (v * v2) - 4 * v3 * (rayOriginY * rayOriginY * tubeDirectionX * tubeDirectionX + rayOriginZ * rayOriginZ * tubeDirectionX * tubeDirectionX
-                - 2 * rayOriginY * tubeOriginY * tubeDirectionX * tubeDirectionX + tubeOriginY * tubeOriginY * tubeDirectionX * tubeDirectionX
-                - 2 * rayOriginZ * tubeOriginZ * tubeDirectionX * tubeDirectionX + tubeOriginZ * tubeOriginZ * tubeDirectionX * tubeDirectionX
-                - 2 * rayOriginX * rayOriginY * tubeDirectionX * tubeDirectionY
-                + 2 * rayOriginY * tubeOriginX * tubeDirectionX * tubeDirectionY
-                + 2 * rayOriginX * tubeOriginY * tubeDirectionX * tubeDirectionY
-                - 2 * tubeOriginX * tubeOriginY * tubeDirectionX * tubeDirectionY +
-                rayOriginX * rayOriginX * tubeDirectionY * tubeDirectionY + rayOriginZ * rayOriginZ * tubeDirectionY * tubeDirectionY
-                - 2 * rayOriginX * tubeOriginX * tubeDirectionY * tubeDirectionY +
-                tubeOriginX * tubeOriginX * tubeDirectionY * tubeDirectionY
-                - 2 * rayOriginZ * tubeOriginZ * tubeDirectionY * tubeDirectionY +
-                tubeOriginZ * tubeOriginZ * tubeDirectionY * tubeDirectionY
-                - 2 * rayOriginX * rayOriginZ * tubeDirectionX * tubeDirectionZ
-                + 2 * rayOriginZ * tubeOriginX * tubeDirectionX * tubeDirectionZ
-                + 2 * rayOriginX * tubeOriginZ * tubeDirectionX * tubeDirectionZ
-                - 2 * tubeOriginX * tubeOriginZ * tubeDirectionX * tubeDirectionZ
-                - 2 * rayOriginY * rayOriginZ * tubeDirectionY * tubeDirectionZ
-                + 2 * rayOriginZ * tubeOriginY * tubeDirectionY * tubeDirectionZ
-                + 2 * rayOriginY * tubeOriginZ * tubeDirectionY * tubeDirectionZ
-                - 2 * tubeOriginY * tubeOriginZ * tubeDirectionY * tubeDirectionZ +
-                rayOriginX * rayOriginX * tubeDirectionZ * tubeDirectionZ + rayOriginY * rayOriginY * tubeDirectionZ * tubeDirectionZ
-                - 2 * rayOriginX * tubeOriginX * tubeDirectionZ * tubeDirectionZ +
-                tubeOriginX * tubeOriginX * tubeDirectionZ * tubeDirectionZ
-                - 2 * rayOriginY * tubeOriginY * tubeDirectionZ * tubeDirectionZ +
-                tubeOriginY * tubeOriginY * tubeDirectionZ * tubeDirectionZ -
-                tubeDirectionX * tubeDirectionX * this.radius * this.radius -
-                tubeDirectionY * tubeDirectionY * this.radius * this.radius -
-                tubeDirectionZ * tubeDirectionZ * this.radius * this.radius);
-        //-b for the quadratic equation
-        final double Bminus = -2 * rayOriginY * rayDirectionY * tubeDirectionX * tubeDirectionX
-                - 2 * rayOriginZ * rayDirectionZ * tubeDirectionX * tubeDirectionX
-                + 2 * rayDirectionY * tubeOriginY * tubeDirectionX * tubeDirectionX
-                + 2 * rayDirectionZ * tubeOriginZ * tubeDirectionX * tubeDirectionX
-                + 2 * rayOriginY * rayDirectionX * tubeDirectionX * tubeDirectionY
-                + 2 * rayOriginX * rayDirectionY * tubeDirectionX * tubeDirectionY
-                - 2 * rayDirectionY * tubeOriginX * tubeDirectionX * tubeDirectionY
-                - 2 * rayDirectionX * tubeOriginY * tubeDirectionX * tubeDirectionY
-                - 2 * rayOriginX * rayDirectionX * tubeDirectionY * tubeDirectionY
-                - 2 * rayOriginZ * rayDirectionZ * tubeDirectionY * tubeDirectionY
-                + 2 * rayDirectionX * tubeOriginX * tubeDirectionY * tubeDirectionY
-                + 2 * rayDirectionZ * tubeOriginZ * tubeDirectionY * tubeDirectionY
-                + 2 * rayOriginZ * rayDirectionX * tubeDirectionX * tubeDirectionZ
-                + 2 * rayOriginX * rayDirectionZ * tubeDirectionX * tubeDirectionZ
-                - 2 * rayDirectionZ * tubeOriginX * tubeDirectionX * tubeDirectionZ
-                - 2 * rayDirectionX * tubeOriginZ * tubeDirectionX * tubeDirectionZ
-                + 2 * rayOriginZ * rayDirectionY * tubeDirectionY * tubeDirectionZ
-                + 2 * rayOriginY * rayDirectionZ * tubeDirectionY * tubeDirectionZ
-                - 2 * rayDirectionZ * tubeOriginY * tubeDirectionY * tubeDirectionZ
-                - 2 * rayDirectionY * tubeOriginZ * tubeDirectionY * tubeDirectionZ
-                - 2 * rayOriginX * rayDirectionX * tubeDirectionZ * tubeDirectionZ
-                - 2 * rayOriginY * rayDirectionY * tubeDirectionZ * tubeDirectionZ
-                + 2 * rayDirectionX * tubeOriginX * tubeDirectionZ * tubeDirectionZ
-                + 2 * rayDirectionY * tubeOriginY * tubeDirectionZ * tubeDirectionZ;
-        //the denominator for the quadratic equation
-        final double aTwo = 2 * v3;
-        //no intersection or tangent
-        if (discriminant <= 0) {
-            return null;
-        }
-
-        //there must be 2 intersection points
-        List<Point> ret = new LinkedList<Point>();//we using linked list so we could remove points if using cylinder
-        //add only the positive results to the list
-        boolean listEmpty = true;
-        double t = (Bminus - Math.sqrt(discriminant)) / aTwo;
-        if (t > 0) {
-            listEmpty = false;
-            ret.add(ray.getPoint(t));
-        }
-        t = (Bminus + Math.sqrt(discriminant)) / aTwo;
-        //(-b - Math.sqrt(discriminant)) / (2 * a);
-        if (t > 0) {
-            listEmpty = false;
-            ret.add(ray.getPoint(t));
-        }
-        return listEmpty ? null : ret;
+    protected LinkedList<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+        return null;
     }
 
 

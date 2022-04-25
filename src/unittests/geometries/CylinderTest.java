@@ -7,16 +7,13 @@
  *  Lecture: Yair Goldstein.
  */
 
-package unittest.geometries;
+package unittests.geometries;
 
 import geometries.Cylinder;
 import org.junit.Test;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 

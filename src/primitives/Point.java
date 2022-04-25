@@ -55,11 +55,11 @@ public class Point {
         return this.coordinate;
     }
 
-    public double length(Point p) {
-        return Math.sqrt(this.lengthSquared(p));
+    public double distance(Point p) {
+        return Math.sqrt(this.distanceSquared(p));
     }
 
-    public double lengthSquared(Point p) {
+    public double distanceSquared(Point p) {
         return (this.coordinate.d1 - p.coordinate.d1) * (this.coordinate.d1 - p.coordinate.d1) +
                 (this.coordinate.d2 - p.coordinate.d2) * (this.coordinate.d2 - p.coordinate.d2) +
                 (this.coordinate.d3 - p.coordinate.d3) * (this.coordinate.d3 - p.coordinate.d3);

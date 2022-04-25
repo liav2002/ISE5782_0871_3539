@@ -32,7 +32,7 @@ public class Vector extends Point {
         if (coordinate.equals(Double3.ZERO)) {
             throw new IllegalArgumentException("WRONG INPUT: cannot receive zero vector");
         }
-        this.lenSquared = super.lengthSquared(Point.ZERO);
+        this.lenSquared = super.distanceSquared(Point.ZERO);
     }
 
     /**
@@ -45,7 +45,7 @@ public class Vector extends Point {
         if (head.coordinate.equals(Double3.ZERO)) {
             throw new IllegalArgumentException("WRONG INPUT: cannot receive zero vector");
         }
-        this.lenSquared = super.lengthSquared(Point.ZERO);
+        this.lenSquared = super.distanceSquared(Point.ZERO);
 
     }
 

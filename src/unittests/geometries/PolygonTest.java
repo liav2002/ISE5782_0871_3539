@@ -7,7 +7,7 @@
  *  Lecture: Yair Goldstein.
  */
 
-package unittest.geometries;
+package unittests.geometries;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -126,45 +126,5 @@ public class PolygonTest {
         assertEquals(new Vector(sqrt3, sqrt3, sqrt3), pl.getNormal(new Point(0, 0, 1)), "Bad normal to trinagle");
     }
 
-    /**
-     * Test method for {@link geometries.Polygon#findIntersections(Ray)}.
-     */
-    @Test
-    public void testfindIntsersections() {
-        //square
-        Polygon poly = new Polygon(
-                new Point(1d, 4d, 0),
-                new Point(4d, 4d, 0),
-                new Point(4d, 0, 0),
-                new Point(1d, 0, 0)
-        );
 
-        Point p = new Point(0, 0, 4d);
-
-        // ============ Equivalence Partitions Tests ==============
-        // TC01: Inside triangle
-        List<Point> result = poly.findIntersections(new Ray(p, new Vector(2d, 2d, -4d)));
-        assertEquals(List.of(new Point(2d, 2d, 0)), result, "Inside polygon");
-
-        // TC02: Outside against edge
-        result = poly.findIntersections(new Ray(p, new Vector(5d, 2d, -4d)));
-        assertNull(result, "Outside against edge");
-
-        // TC03: Outside against vertex
-        result = poly.findIntersections(new Ray(p, new Vector(7d, 7d, -4d)));
-        assertNull(result, "Outside against vertex");
-
-        // =============== Boundary Values Tests ==================
-        // TC11: On edge
-        result = poly.findIntersections(new Ray(p, new Vector(4d, 2, -4d)));
-        assertNull(result, "On edge");
-
-        // TC12: In vertex
-        result = poly.findIntersections(new Ray(p, new Vector(4d, 4d, -4d)));
-        assertNull(result, "In vertex");
-
-        // TC13: On edge's continuation
-        result = poly.findIntersections(new Ray(p, new Vector(7d, 8d, -4d)));
-        assertNull(result, "On edge's continuation");
-    }
 }

@@ -1,7 +1,7 @@
 package primitives;
 
 /**
- * Wrapper class for java.awt.Color The constructors operate with any
+ * Wrapper class for java.jwt.Color The constructors operate with any
  * non-negative RGB values. The colors are maintained without upper limit of
  * 255. Some additional operations are added that are useful for manipulating
  * light's colors
@@ -19,6 +19,10 @@ public class Color {
      * Black color = (0,0,0)
      */
     public static final Color BLACK = new Color();
+
+    public Double3 getRGB() {
+        return rgb;
+    }
 
     /**
      * Default constructor - to generate Black Color (privately)
@@ -125,8 +129,7 @@ public class Color {
      * @return new Color object which is the result of the operation
      */
     public Color reduce(double k) {
-        if (k < 1)
-            throw new IllegalArgumentException("Can't scale a color by a by a number lower than 1");
+        if (k < 1) throw new IllegalArgumentException("Can't scale a color by a by a number lower than 1");
         return new Color(rgb.reduce(k));
     }
 
@@ -140,42 +143,6 @@ public class Color {
         if (k.d1 < 1.0 || k.d2 < 1.0 || k.d3 < 1.0)
             throw new IllegalArgumentException("Can't scale a color by a by a number lower than 1");
         return new Color(rgb.d1 / k.d1, rgb.d2 / k.d2, rgb.d3 / k.d3);
-    }
-
-    /**
-     * Returns the red component of the color
-     *
-     * @return The red value of the color.
-     */
-    public double red() {
-        return this.rgb.d1;
-    }
-
-    /**
-     * Returns the green component of the color
-     *
-     * @return The green value of the color.
-     */
-    public double green() {
-        return this.rgb.d2;
-    }
-
-    /**
-     * Returns the blue component of the color
-     *
-     * @return The blue component of the color.
-     */
-    public double blue() {
-        return this.rgb.d3;
-    }
-
-    /**
-     * Returns the RGB color of the pixel
-     *
-     * @return The RGB values of the color.
-     */
-    public Double3 getRGB(){
-        return this.rgb;
     }
 
 }
