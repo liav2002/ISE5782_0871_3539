@@ -12,4 +12,8 @@ public class AmbientLight extends Light{
         super(new Color(Ia.getRGB().product(Ka)));
     }
 
+    public AmbientLight(Color Ia, double Ka) {
+        super(new Color(Ia.getRGB().product(new Double3(Ka))));
+    }
+
 }

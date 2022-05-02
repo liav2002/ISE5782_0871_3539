@@ -20,10 +20,6 @@ public class Color {
      */
     public static final Color BLACK = new Color();
 
-    public Double3 getRGB() {
-        return rgb;
-    }
-
     /**
      * Default constructor - to generate Black Color (privately)
      */
@@ -43,6 +39,10 @@ public class Color {
         if (r < 0 || g < 0 || b < 0)
             throw new IllegalArgumentException("Negative color component is illegal");
         rgb = new Double3(r, g, b);
+    }
+
+    public Double3 getRGB() {
+        return rgb;
     }
 
 
@@ -129,7 +129,8 @@ public class Color {
      * @return new Color object which is the result of the operation
      */
     public Color reduce(double k) {
-        if (k < 1) throw new IllegalArgumentException("Can't scale a color by a by a number lower than 1");
+        if (k < 1)
+            throw new IllegalArgumentException("Can't scale a color by a by a number lower than 1");
         return new Color(rgb.reduce(k));
     }
 
@@ -145,4 +146,8 @@ public class Color {
         return new Color(rgb.d1 / k.d1, rgb.d2 / k.d2, rgb.d3 / k.d3);
     }
 
+    @Override
+    public String toString() {
+        return "rgb:" + rgb;
+    }
 }

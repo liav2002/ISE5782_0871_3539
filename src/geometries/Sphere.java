@@ -68,8 +68,8 @@ public class Sphere extends Geometry {
 
     @Override
     public Vector getNormal(Point p) {
-        if (Util.isZero(p.distanceSquared(center) - radius * radius))
+//        if (Util.isZero(p.distanceSquared(center) - radius * radius))
             return new Vector(this.center.subtract(p)).normalize();
-        throw new IllegalArgumentException("Point" + p + " not in Sphere " + this);
+//        throw new IllegalArgumentException("Point" + p + " not in Sphere " + this);
     }
 }
