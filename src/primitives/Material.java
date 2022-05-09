@@ -3,17 +3,11 @@ package primitives;
 public class Material {
     Double3 kD = Double3.ZERO;
     Double3 kS = Double3.ZERO;
-    Double3 kT = Double3.ZERO;
-    Double3 kR = Double3.ZERO;
+    public Double3 kT = Double3.ZERO;
+    public Double3 kR = Double3.ZERO;
     int nShininess = 0;
 
-    public Double3 getKt() {
-        return kT;
-    }
 
-    public Double3 getKr() {
-        return kR;
-    }
 
     public Double3 getKd() {
         return kD;

@@ -129,6 +129,7 @@ public class Vector extends Point {
                 this.coordinate.equals(((Vector) o).coordinate);
     }
 
+
     @Override
     public String toString() {
         return "Vec{" + coordinate + '}';

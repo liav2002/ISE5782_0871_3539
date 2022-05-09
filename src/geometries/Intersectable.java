@@ -28,6 +28,17 @@ public abstract class Intersectable {
         return findGeoIntersectionsHelper(ray);
     }
 
+    /**
+     * search for all intersections in distance's range
+     *
+     * @param ray
+     * @param maxDistance
+     * @return
+     */
+    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return null;
+    }
+
     public List<Point> findIntersections(Ray ray) {
         var geoList = findGeoIntersections(ray);
         return geoList == null ? null

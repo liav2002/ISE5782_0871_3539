@@ -13,6 +13,9 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Cylinder extends Tube {
     private double height;
 
@@ -37,10 +40,51 @@ public class Cylinder extends Tube {
         return this.height;
     }
 
+    private Point planesIntersection(Plane cylinderPlane, Ray ray) {
+        List<Point> planesIntersections = cylinderPlane.findIntersections(ray);
+        if (planesIntersections != null && planesIntersections.get(0).distance(cylinderPlane.getQ0()) < this.radius) {
+            return planesIntersections.get(0);
+        }
+        return null;
+    }
 
+    @Override
+    public List<GeoPoint> findGeoIntersections(Ray ray, double distance) {
+        List<GeoPoint> ret = super.findGeoIntersections(ray, distance);
+        if (ret == null) {
+            ret = new LinkedList<GeoPoint>();
+        } else {
+            System.out.print("");
+        }
+        Plane bottomPlane = new Plane(this.axisRay.getDir(), this.axisRay.getP0());
+        Plane topPlane = new Plane(this.axisRay.getDir(), this.axisRay.getPoint(this.height));
+        ret.removeIf(point -> !onCylinder(point.point));//remove all the points that out of the cylinder boundary
+        Point intersectingPoint = planesIntersection(topPlane, ray);
+        addIfNotNullOrFar(ret, intersectingPoint, ray.getP0(), distance);
+        intersectingPoint = planesIntersection(bottomPlane, ray);
+        addIfNotNullOrFar(ret, intersectingPoint, ray.getP0(), distance);
+        if (ret.size() == 0) {
+            return null;
+        }
+        return ret;
+    }
 
-    private boolean onCylinder(Point pt){
+    private boolean onCylinder(Point pt) {
         return false;
+    }
+
+    /**
+     * add geoPoint to list only if it not null
+     *
+     * @param lst      the list
+     * @param pt       the point to add (converted to geoPoint
+     * @param dest     the destination to compare the distance from
+     * @param distance teh max distance
+     */
+    private void addIfNotNullOrFar(List<GeoPoint> lst, Point pt, Point dest, double distance) {
+        if (pt != null && pt.distance(dest) <= distance) {
+            lst.add(new GeoPoint(this, pt));
+        }
     }
 
     @Override

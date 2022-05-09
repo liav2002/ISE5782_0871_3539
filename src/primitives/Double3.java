@@ -59,7 +59,6 @@ public class Double3 {
             return isZero(d1 - other.d1) && isZero(d2 - other.d2) && isZero(d3 - other.d3);
         return false;
     }
-
     @Override
     public int hashCode() {
         return (int) Math.round(d1 + d2 + d3);

@@ -17,6 +17,8 @@ import primitives.Vector;
 import java.util.LinkedList;
 import java.util.List;
 
+import static primitives.Util.alignZero;
+
 
 public class Plane extends Geometry {
     private Point q0;
@@ -69,6 +71,30 @@ public class Plane extends Geometry {
             return null;
         }
         return L;
+    }
+
+    @Override
+    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        if (q0.equals(ray.getP0())) {
+            return null;
+        }
+        if (Util.isZero(normal.dotProduct(ray.getDir()))) { //ray and normal are parallel
+            return null;
+        }
+        double t = alignZero(normal.dotProduct(q0.subtract(ray.getP0())) / normal.dotProduct(ray.getDir()));
+        if (t <= 0) { //there is no intersection points
+            return null;
+        }
+
+        Point intersection = ray.getPoint(t);
+        //if(!ray.isPointInRange(intersection,maxDistance)){
+        if(t>maxDistance){
+            return null;
+        }
+
+        List ret = new LinkedList<GeoPoint>(); //we dont using List.of so we could remove points while using polygon findIntersections
+        ret.add(new GeoPoint(this, intersection));
+        return ret;
     }
 
     @Override
