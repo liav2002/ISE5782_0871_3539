@@ -64,10 +64,6 @@ public class TriangleTest {
         assertEquals("ERROR: findGeoIntersections() Does not work well.",
                 null, T1.findGeoIntersections(new Ray(new Point(3, 3, 0), new Vector(-1, 0, -1))));
 
-        //Ray intersects with vertex
-        L.clear();
-        assertThrows("ERROR: findGeoIntersections() Does not work well.", IllegalArgumentException.class,
-                () -> T1.findGeoIntersections(new Ray(new Point(1, 1, 1), new Vector(1, 1, 1))));
 
         //Ray starts from triangle and goes inside (Parallel)
         L.clear();

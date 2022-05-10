@@ -113,10 +113,6 @@ public class Polygon extends Geometry {
         return plane.getNormal(null);
     }
 
-    @Override
-    protected LinkedList<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        return null;
-    }
 
     @Override
     public String toString() {
@@ -158,7 +154,7 @@ public class Polygon extends Geometry {
      * @return
      */
     @Override
-    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         //there is two option, 1: the ray have intersection point with the plane, 2 the ray is on the plane
         //check option 1
         List<GeoPoint> ret = plane.findGeoIntersections(ray, maxDistance);

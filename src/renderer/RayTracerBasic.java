@@ -80,7 +80,7 @@ public class RayTracerBasic extends RayTracerBase {
         Material material = geopoint.geometry.getMaterial();
         Double3 kkr = k.product(material.kR);
         Vector n = geopoint.geometry.getNormal(geopoint.point);
-        if (!kkr.lowerThan(MIN_CALC_COLOR_K)) {
+        if (kkr.biggerThan(MIN_CALC_COLOR_K)) {
             Ray reflectedRay = constructReflectedRay(n, geopoint.point, ray.getDir());
             GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
             if (reflectedPoint != null) {
@@ -88,7 +88,7 @@ public class RayTracerBasic extends RayTracerBase {
             }
         }
         Double3 kkt = k.product(material.kT);
-        if (!kkt.lowerThan(MIN_CALC_COLOR_K)) {
+        if (kkt.biggerThan(MIN_CALC_COLOR_K)) {
             Ray refractedRay = constructRefractedRay(n, geopoint.point, ray.getDir());
             GeoPoint refractedPoint = findClosestIntersection(refractedRay);
             if (refractedPoint != null) {
@@ -121,7 +121,7 @@ public class RayTracerBasic extends RayTracerBase {
             if (nl * nv > 0) { // sign(nl) == sing(nv)
                 Double3 ktr = transparency(geoPoint,lightSource,l,n);//transparency(l, n, geopoint, nv);
                 var x = ktr.product(k);
-                if (!x.lowerThan(MIN_CALC_COLOR_K)){
+                if (x.biggerThan(MIN_CALC_COLOR_K)){
                     Color intensity = lightSource.getIntensity(geoPoint.point).scale(ktr);
                     color = color.add(calcDiffusive(material.getKd(), l, n, intensity),
                             calcSpecular(material.getKs(), l, n, v, material.getnShininess(), intensity));
@@ -244,7 +244,7 @@ public class RayTracerBasic extends RayTracerBase {
             if (alignZero(gp.point.distance(geoPoint.point) - lightDistance) <= 0) {
                 //ktr *= gp.geometry.getMaterial().kT;
                 ktr = ktr.product(gp.geometry.getMaterial().kT);
-                if (!ktr.lowerThan(MIN_CALC_COLOR_K))
+                if (ktr.lowerThan(MIN_CALC_COLOR_K))
                     return Double3.ZERO;
             }
         }

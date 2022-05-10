@@ -51,30 +51,8 @@ public class Plane extends Geometry {
         return normal;
     }
 
-
     @Override
-    protected LinkedList<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        LinkedList<GeoPoint> L = new LinkedList<GeoPoint>();
-        L.clear();
-
-        if (Util.isZero(normal.dotProduct(ray.getDir()))) {
-            return null;
-        }
-        try {
-            double t = q0.subtract(ray.getP0()).dotProduct(normal);
-            t = t / normal.dotProduct(ray.getDir());
-            if (Util.isZero(t)) {
-                return null;
-            }
-            L.add(new GeoPoint(this, ray.getPoint(t)));
-        } catch (Exception e) {
-            return null;
-        }
-        return L;
-    }
-
-    @Override
-    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (q0.equals(ray.getP0())) {
             return null;
         }

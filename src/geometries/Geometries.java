@@ -46,25 +46,6 @@ public class Geometries extends Intersectable {
         return list;
     }
 
-    /**
-     * Implement interface function
-     *
-     * @param ray the interacting ray
-     * @return all intersections points
-     */
-    @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        List<GeoPoint> res = new LinkedList<GeoPoint>();
-        List<GeoPoint> intersects;
-        for (Intersectable G : list) {
-            intersects = G.findGeoIntersectionsHelper(ray);
-            if (intersects != null) {
-                res.addAll(intersects);
-            }
-        }
-        if (res.isEmpty()) return null;
-        return res;
-    }
 
     /**
      * get the closest intersection of the given ray with the Intersectable
@@ -88,7 +69,7 @@ public class Geometries extends Intersectable {
      * @return all intersections points
      */
     @Override
-    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         List<GeoPoint> ret = new LinkedList<GeoPoint>();
         for (Intersectable shape : list) {
             var geoIntersection = shape.findGeoIntersections(ray, maxDistance);

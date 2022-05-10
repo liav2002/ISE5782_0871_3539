@@ -1,92 +1,117 @@
-/*
- *  Mini Project in Introduction to Software Engineering.
- *
- *  @author1  Liav Ariel (212830871), halkadar@g.jct.ac.il
- *  @author2  Eyal Seckbach (324863539), seyal613@gmail.com
- *
- *  Lecture: Yair Goldstein.
- */
-
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-
-import java.util.LinkedList;
+import primitives.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-/**
- * Defining an interface. for calculation of insersections with ray.
- *
- * @author1 Eyal
- * @authon2 Liav Ariel
- */
 public abstract class Intersectable {
-    public List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
-    }
 
     /**
-     * search for all intersections in distance's range
+     * Given a ray, find all the points where the ray intersects the sphere
      *
-     * @param ray
-     * @param maxDistance
-     * @return
+     * @param ray The ray to check for intersections with.
+     * @return A list of points.
      */
-    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
-        return null;
-    }
-
     public List<Point> findIntersections(Ray ray) {
         var geoList = findGeoIntersections(ray);
         return geoList == null ? null
                 : geoList.stream().map(gp -> gp.point).toList();
     }
 
-    //Finds intersections between a ray and a body
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
 
     /**
-     * The class `GeoPoint` has two fields, `geometry` and `point`, and a `toString` function
+     * This function returns a list of all the intersections of the ray with the geometry of the scene
+     *
+     * @param ray The ray to find intersections with.
+     * @return A list of GeoPoints.
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray){
+        return findGeoIntersections(ray,Double.POSITIVE_INFINITY);
+    }
+
+    /**
+     * "Finds the intersections of a ray with the Earth's surface, up to a maximum distance."
+     *
+     * The function is declared as `public final` and `static`. The `final` keyword means that the function cannot be
+     * overridden by a subclass. The `static` keyword means that the function is a class method, not an instance method
+     *
+     * @param ray The ray to intersect with the GeoJsonFeature.
+     * @param maxDistance The maximum distance to search for intersections.
+     * @return A list of GeoPoints.
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
+    }
+
+    /**
+     * > Finds the intersection points of the ray with the surface of the object
+     *
+     * @param ray The ray to intersect with the GeoPoint.
+     * @return A list of GeoPoints that are the intersections of the ray with the object.
+     */
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance);
+
+    /**
+     * > A GeoPoint is a Geometry that is a Point
      */
     public static class GeoPoint {
+        public Geometry geometry;
+        public Point point;
 
+        /**
+         * A constructor for the GeoPoint class.
+         * @param geometry
+         * @param point
+         */
         public GeoPoint(Geometry geometry, Point point) {
             this.geometry = geometry;
             this.point = point;
         }
 
-        // A field of the class.
-        public Geometry geometry;
-
-        // A point in the geometry.
-        public Point point;
+        /**
+         * This function returns the geometry of the feature
+         *
+         * @return The geometry of the object.
+         */
+        public Geometry getGeometry() {
+            return geometry;
+        }
 
         /**
-         * equals function
+         * Returns the point.
          *
-         * @param o
-         * @return boolean true or false if equality or not
+         * @return The point object.
+         */
+        public Point getPoint() {
+            return point;
+        }
+
+        /**
+         * If the object is not null, and is an instance of GeoPoint, and the geometry and point are equal, then return
+         * true
+         *
+         * @param obj The object to compare to.
+         * @return The hashcode of the object.
          */
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            GeoPoint geoPoint = (GeoPoint) o;
-            return Objects.equals(this.geometry, geoPoint.geometry) &&
-                    Objects.equals(this.point, geoPoint.point);
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null) return false;
+            if (!(obj instanceof GeoPoint)) return false;
+            GeoPoint other = (GeoPoint)obj;
+            return this.geometry.equals(other.geometry) && this.point.equals(other.point);
         }
 
+        /**
+         * The toString() method returns a string representation of the object
+         *
+         * @return The toString() method is being overridden to return the values of the geometry and point variables.
+         */
         @Override
-        // A function that returns a string.
         public String toString() {
-            return "point: " + point + ", geometry: " + geometry;
+            return "GeoPoint{" +
+                    "geometry=" + geometry +
+                    ", point=" + point +
+                    '}';
         }
-
-
     }
-
-
 }
