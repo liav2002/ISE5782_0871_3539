@@ -17,15 +17,24 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * Parent class to all the other geometries - polymorphism.
+ */
 public class Geometries extends Intersectable {
     private List<Intersectable> list;
 
+    /**
+     * empty constructor.
+     */
     public Geometries() {
         this.list = new
                 LinkedList<>();
     }
 
+    /**
+     * default constructor with parameters.
+     * @param Geometries - linked list of the geometries we stored.
+     */
     public Geometries(Intersectable... Geometries) {
         this.list = new
                 LinkedList<>();
@@ -36,12 +45,20 @@ public class Geometries extends Intersectable {
 
     }
 
+    /**
+     * method for adding geometries to the linked list.
+     * @param Geometries - linked list of geometries to add.
+     */
     public void add(Intersectable... Geometries) {
         for (Intersectable intersectable : Geometries) {
             list.add(intersectable);
         }
     }
 
+    /**
+     * getter to geometries list.
+     * @return geometries list.
+     */
     public List<Intersectable> getList() {
         return list;
     }

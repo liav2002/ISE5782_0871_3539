@@ -13,18 +13,39 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+/**
+ * Cylinder class represents two-dimensional cylinder in 3D Cartesian coordinate
+ * system, a type of tube but with height.
+ *
+ * @author1 Eyal Seckbach
+ * @author2 Liav Ariel
+ */
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class Cylinder extends Tube {
     private double height;
 
+    /**
+     * Implement default constructor.
+     *
+     * @param height - cylinder's height.
+     * @param radius - cylinder's base radius.
+     * @param axisRay - cylinder's direction on the 3D space.
+     */
     public Cylinder(double height, double radius, Ray axisRay) {
         super(radius, axisRay);
         this.height = height;
     }
 
     @Override
+    /**
+     * Calculate the cylinder's normal vector to given point.
+     *
+     * @param pnt - point for calc the normal ratio to the point.
+     * @retun normal vector.
+     */
     public Vector getNormal(Point pnt) {
         Point topBaseCenter = this.axisRay.getPoint(this.height);//the center of the top base of the cylinder
         //if the point is on the bottom base make plane normal calculation:
@@ -36,10 +57,14 @@ public class Cylinder extends Tube {
         return super.getNormal(pnt);
     }
 
+    /**
+     * getter for height.
+     * @return Cylinder's height.
+     */
     public double getHeight() {
         return this.height;
     }
-
+    
     private Point planesIntersection(Plane cylinderPlane, Ray ray) {
         List<Point> planesIntersections = cylinderPlane.findIntersections(ray);
         if (planesIntersections != null && planesIntersections.get(0).distance(cylinderPlane.getQ0()) < this.radius) {

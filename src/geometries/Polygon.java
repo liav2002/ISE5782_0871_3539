@@ -42,6 +42,10 @@ public class Polygon extends Geometry {
         return plane;
     }
 
+    /**
+     * getter for size
+     * @return polygon's size.
+     */
     public int getSize() {
         return size;
     }
@@ -108,6 +112,11 @@ public class Polygon extends Geometry {
         size = vertices.length;
     }
 
+    /**
+     * getter for normal.
+     * @param point - point on the normal.
+     * @return polygon's normal.
+     */
     @Override
     public Vector getNormal(Point point) {
         return plane.getNormal(null);

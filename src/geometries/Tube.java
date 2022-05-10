@@ -17,18 +17,37 @@ import primitives.Vector;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Tube class represents two-dimensional tube in 3D Cartesian coordinate
+ * system.
+ *
+ * @author1 Eyal Seckbach
+ * @author2 Liav Ariel
+ */
 import static primitives.Util.alignZero;
 
 public class Tube extends Geometry {
     protected double radius;
     protected Ray axisRay;
 
+    /**
+     * Implement default constructor.
+     *
+     * @param radius - Tube's base radius.
+     * @param axisRay - Tube's direction on 3D space.
+     */
     public Tube(double radius, Ray axisRay) {
         this.radius = radius;
         this.axisRay = axisRay;
     }
 
     @Override
+    /**
+     * Calculate the tube's normal vector to given point.
+     *
+     * @param p - point for calc the normal ratio to the point.
+     * @return normal vector.
+     */
     public Vector getNormal(Point p) {
         double t = axisRay.getDir().dotProduct(p.subtract(axisRay.getP0()));
         if (t == 0) { /* point is facing the head of the tube's ray */
@@ -37,14 +56,26 @@ public class Tube extends Geometry {
         return p.subtract(axisRay.getPoint(t)).normalize();
     }
 
+    /**
+     * getter for radius
+     * @return Tube's radius
+     */
     public double getRadius() {
         return radius;
     }
 
+    /**
+     * getter for axisRay
+     * @return Tube's axisRay
+     */
     public Ray getAxisRay() {
         return this.axisRay;
     }
 
+    /**
+     * Interface function, we don't use it on Tube, therefore we return null.
+     * @return null.
+     */
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         //for using less functions we storing all teh parameters in other variables
@@ -89,6 +120,7 @@ public class Tube extends Geometry {
         }
         return listEmpty ? null : ret;
     }
+
     @Override
     public String toString() {
         return "Tube{" + " radius = " + this.radius + " axisRay = " + this.axisRay + "}";

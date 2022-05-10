@@ -19,19 +19,41 @@ import java.util.List;
 
 import static primitives.Util.alignZero;
 
+/**
+ * Cylinder class represents two-dimensional Sphere in 3D Cartesian coordinate
+ * system.
+ *
+ * @author1 Eyal Seckbach
+ * @author2 Liav Ariel
+ */
 public class Sphere extends Geometry {
     private Point center;
     private double radius;
 
+    /**
+     * getter for center
+     *
+     * @return Sphere's center.
+     */
     public Point getCenter() {
         return center;
     }
 
+    /**
+     * getter for radius
+     *
+     * @return Sphere's radius.
+     */
     public double getRadius() {
         return radius;
     }
 
-
+    /**
+     * Implement default constructor
+     *
+     * @param center - Sphere's center.
+     * @param radius - Sphere's radius.
+     */
     public Sphere(Point center, double radius) {
         this.center = center;
         this.radius = radius;
@@ -43,6 +65,12 @@ public class Sphere extends Geometry {
         return "Sphere{" + " center=" + center + " radius = " + this.radius + "}";
     }
 
+    /**
+     * calculate and return normalized normal vector.
+     *
+     * @param p - point on normal.
+     * @return normalized normal vector.
+     */
     @Override
     public Vector getNormal(Point p) {
 //        if (Util.isZero(p.distanceSquared(center) - radius * radius))
@@ -51,6 +79,11 @@ public class Sphere extends Geometry {
     }
 
     /**
+     * calculating of intersections of a ray with our sphere.
+     *
+     * @param ray - some ray in our scene.
+     * @return a list of points of intersections between the ray to the sphere.
+     * <p>
      * Calculate intersection points for a sphere and a ray, using equation:
      * u=O-P0
      * tm=v*u
@@ -59,7 +92,6 @@ public class Sphere extends Geometry {
      * t1,2=tm+-th
      * Pi=P0+ti*v
      */
-
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (center.equals(ray.getP0())) { // Ray head is the center of the sphere
