@@ -17,7 +17,6 @@ import primitives.Vector;
 import java.util.LinkedList;
 import java.util.List;
 
-<<<<<<< HEAD
 /**
  * Cylinder class represents two-dimensional plane in 3D Cartesian coordinate
  * system
@@ -25,11 +24,9 @@ import java.util.List;
  * @author1 Eyal Seckbach
  * @author2 Liav Ariel
  */
-=======
+
 import static primitives.Util.alignZero;
 
-
->>>>>>> 9c0f4daa4cb8ecacd7f7ea5f3054f857519afcd1
 public class Plane extends Geometry {
     private Point q0;
     private Vector normal;
@@ -92,14 +89,11 @@ public class Plane extends Geometry {
         return normal;
     }
 
-<<<<<<< HEAD
     /**
      * calculating of intersections of a ray with our plane.
      * @param ray - some ray in our scene.
      * @return a list of points of intersections between the ray to the plane.
      */
-=======
->>>>>>> 9c0f4daa4cb8ecacd7f7ea5f3054f857519afcd1
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         if (q0.equals(ray.getP0())) {

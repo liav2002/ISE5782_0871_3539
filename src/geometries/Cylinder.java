@@ -13,8 +13,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-<<<<<<< HEAD
-
 /**
  * Cylinder class represents two-dimensional cylinder in 3D Cartesian coordinate
  * system, a type of tube but with height.
@@ -22,11 +20,10 @@ import primitives.Vector;
  * @author1 Eyal Seckbach
  * @author2 Liav Ariel
  */
-=======
+
 import java.util.LinkedList;
 import java.util.List;
 
->>>>>>> 9c0f4daa4cb8ecacd7f7ea5f3054f857519afcd1
 public class Cylinder extends Tube {
     private double height;
 
@@ -67,9 +64,7 @@ public class Cylinder extends Tube {
     public double getHeight() {
         return this.height;
     }
-
-<<<<<<< HEAD
-=======
+    
     private Point planesIntersection(Plane cylinderPlane, Ray ray) {
         List<Point> planesIntersections = cylinderPlane.findIntersections(ray);
         if (planesIntersections != null && planesIntersections.get(0).distance(cylinderPlane.getQ0()) < this.radius) {
@@ -117,7 +112,6 @@ public class Cylinder extends Tube {
         }
     }
 
->>>>>>> 9c0f4daa4cb8ecacd7f7ea5f3054f857519afcd1
     @Override
     public String toString() {
         return "Cylinder{" + " height=" + height + super.toString() + "}";

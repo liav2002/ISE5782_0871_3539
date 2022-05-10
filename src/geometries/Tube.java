@@ -17,7 +17,6 @@ import primitives.Vector;
 import java.util.LinkedList;
 import java.util.List;
 
-<<<<<<< HEAD
 /**
  * Tube class represents two-dimensional tube in 3D Cartesian coordinate
  * system.
@@ -25,10 +24,8 @@ import java.util.List;
  * @author1 Eyal Seckbach
  * @author2 Liav Ariel
  */
-=======
 import static primitives.Util.alignZero;
 
->>>>>>> 9c0f4daa4cb8ecacd7f7ea5f3054f857519afcd1
 public class Tube extends Geometry {
     protected double radius;
     protected Ray axisRay;
@@ -49,7 +46,7 @@ public class Tube extends Geometry {
      * Calculate the tube's normal vector to given point.
      *
      * @param p - point for calc the normal ratio to the point.
-     * @retun normal vector.
+     * @return normal vector.
      */
     public Vector getNormal(Point p) {
         double t = axisRay.getDir().dotProduct(p.subtract(axisRay.getP0()));
@@ -75,13 +72,10 @@ public class Tube extends Geometry {
         return this.axisRay;
     }
 
-<<<<<<< HEAD
     /**
      * Interface function, we don't use it on Tube, therefore we return null.
      * @return null.
      */
-=======
->>>>>>> 9c0f4daa4cb8ecacd7f7ea5f3054f857519afcd1
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
         //for using less functions we storing all teh parameters in other variables
@@ -126,6 +120,7 @@ public class Tube extends Geometry {
         }
         return listEmpty ? null : ret;
     }
+
     @Override
     public String toString() {
         return "Tube{" + " radius = " + this.radius + " axisRay = " + this.axisRay + "}";

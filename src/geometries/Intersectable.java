@@ -3,15 +3,12 @@ package geometries;
 import primitives.*;
 import java.util.List;
 
-<<<<<<< HEAD
 /**
  * Defining an interface. for calculation of intersections with ray.
  *
  * @author1 Eyal Seckbach
  * @authon2 Liav Ariel
  */
-=======
->>>>>>> 9c0f4daa4cb8ecacd7f7ea5f3054f857519afcd1
 public abstract class Intersectable {
 
     /**
@@ -98,13 +95,10 @@ public abstract class Intersectable {
          * If the object is not null, and is an instance of GeoPoint, and the geometry and point are equal, then return
          * true
          *
-<<<<<<< HEAD
          * @param o - some object from geometries or primitives
          * @return boolean true or false if equality or not
-=======
          * @param obj The object to compare to.
          * @return The hashcode of the object.
->>>>>>> 9c0f4daa4cb8ecacd7f7ea5f3054f857519afcd1
          */
         @Override
         public boolean equals(Object obj) {
