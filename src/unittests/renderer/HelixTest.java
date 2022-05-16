@@ -9,7 +9,9 @@
 
 package unittests.renderer;
 
+import geometries.Plane;
 import geometries.Sphere;
+import geometries.Tube;
 import lighting.AmbientLight;
 import lighting.DirectionalLight;
 import lighting.SpotLight;
@@ -33,44 +35,65 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class HelixTest {
     private Scene scene = new Scene("Test scene")
-            .setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
+            .setAmbientLight(new AmbientLight(new Color(WHITE).reduce(5), 0.05));
 
     /**
      * Bonus - Targil 7 - generate DNA (double helix).
      */
     @Test
     void testDNA() {
+        double tension = 0.05; // the tension
+        double rad = 0.06;  // the radios of the helix
+        double size = 0.01;  // the size of sphere
+        double length = 5;  // the total length
+        double distance = 0.1; // from point to point
+        scene.geometries.add(
+                new Plane(new Vector(0, 0, 1),
+                        new Point(0, 0, -10))
+                        .setEmission(new Color(WHITE))
+        );
 
-        //add helix 1:
-        for (double t = 0; t < 37.4; t += 0.2) {
-            scene.geometries.add(new Sphere(new Point(Math.cos(t) * 500, t * 250, Math.sin(t) * 100), 100)
+        for (double t = -length; t < length; t += distance) {
+            //add helix 1:
+            Point hel1 = new Point(Math.cos(t) * rad, t * tension,
+                    Math.sin(t) * rad * 10);
+            scene.geometries.add(new Sphere(
+                    hel1,
+                    size)
                     .setEmission(new Color(BLUE).reduce(2))
                     .setMaterial(new Material().setKd(0.4).setKs(0.3)
-                            .setShininess(100).setKt(0.3).setKr(0)));
-        }
+                            .setShininess(10).setKt(0.3).setKr(0)));
 
-        //add helix 2:
-        for (double t = 0; t < 37.4; t += 0.2) {
-            scene.geometries.add(new Sphere(new Point(Math.cos(t) * 500, t * 250 + 750, Math.sin(t) * 1000), 100)
+            //add helix 2:
+            Point hel2 = new Point(Math.cos(t) * rad, t * tension + tension * Math.PI, Math.sin(t) * rad * 10);
+            scene.geometries.add(new Sphere(
+                    hel2,
+                    size)
                     .setEmission(new Color(RED).reduce(2))
                     .setMaterial(new Material().setKd(0.4).setKs(0.3)
-                            .setShininess(100).setKt(0.3).setKr(0)));
+                            .setShininess(10).setKt(0.3).setKr(0)));
         }
 
+
         scene.lights.add(
-                new SpotLight(new Color(1000, 600, 0), new Point(2000, 5000, 0), new Vector(-50, 100, 30)) //
-                        .setKl(0.0004).setKq(0.0000006));
+                new SpotLight(new Color(GREEN).reduce(2),
+                        new Point(50, 10, 50),
+                        new Vector(-0.2, 0, -1)
+                )
+        );
 
-        scene.lights.add(new SpotLight(new Color(800, 500, 250), new Point(30, 10, -100), new Vector(-2, -2, -2))
-                .setKl(0.001).setKq(0.00004));
 
-        Camera camera = new Camera(new Point(100, 5500, 50000), new Vector(0, 0, -1), new Vector(0, 1, 0)) //
-                .setVPSize(150, 150) //
+
+        Camera camera = new Camera(new Point(0, 0, 70),
+                new Vector(0, 0, -1),
+                new Vector(0, 1, 0)
+        ).rotate(0, 0, 45)
+                .setVPSize(6, 6)
                 .setVPDistance(1000);
 
-        camera.setImageWriter(new ImageWriter("doubleHelix", 500, 500)) //
-                .setRayTracer(new RayTracerBasic(scene)) //
-                .renderImage() //
+        camera.setImageWriter(new ImageWriter("doubleHelix", 500, 500))
+                .setRayTracer(new RayTracerBasic(scene))
+                .renderImage()
                 .writeToImage();
     }
 }

@@ -170,6 +170,31 @@ public class Camera {
         return this;
     }
 
+    /**
+     * Rotates the camera around the axes with the given angles
+     *
+     * @param amount vector of angles
+     * @return the current camera
+     */
+    public Camera rotate(Vector amount) {
+        return rotate(amount.getX(), amount.getY(), amount.getZ());
+    }
+
+    /**
+     * Rotates the camera around the axes with the given angles
+     *
+     * @param x angles to rotate around the x axis
+     * @param y angles to rotate around the y axis
+     * @param z angles to rotate around the z axis
+     * @return the current camera
+     */
+    public Camera rotate(double x, double y, double z) {
+        v1.rotateX(x).rotateY(y).rotateZ(z);
+        v2.rotateX(x).rotateY(y).rotateZ(z);
+        v3 = v1.crossProduct(v2);
+
+        return this;
+    }
 
     /**
      * Write the image to the image file

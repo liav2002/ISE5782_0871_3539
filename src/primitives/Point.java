@@ -51,6 +51,9 @@ public class Point {
 
     }
 
+    public void setCoordinate(double x, double y, double z){
+        this.coordinate = new Double3(x, y, z);
+    }
     public Double3 getDouble3() {
         return this.coordinate;
     }

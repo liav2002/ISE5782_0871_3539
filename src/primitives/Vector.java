@@ -16,16 +16,16 @@ public class Vector extends Point {
 
     protected double lenSquared;
     /**
-     * the head of the vector
+     * the this of the vector
      */
 
 
     /**
      * vector constructor
      *
-     * @param x the head x value
-     * @param y the head y value
-     * @param z the head z value
+     * @param x the this x value
+     * @param y the this y value
+     * @param z the this z value
      */
     public Vector(double x, double y, double z) {
         super(x, y, z);
@@ -38,11 +38,11 @@ public class Vector extends Point {
     /**
      * vector constructor
      *
-     * @param head the head of vector
+     * @param h the head of vector
      */
-    public Vector(Point head) {
-        super(head);
-        if (head.coordinate.equals(Double3.ZERO)) {
+    public Vector(Point h) {
+        super(h);
+        if (this.coordinate.equals(Double3.ZERO)) {
             throw new IllegalArgumentException("WRONG INPUT: cannot receive zero vector");
         }
         this.lenSquared = super.distanceSquared(Point.ZERO);
@@ -135,5 +135,53 @@ public class Vector extends Point {
         return "Vec{" + coordinate + '}';
     }
 
+    /**
+     * Rotates the vector around the x axis
+     * @param alpha the amount to rotate in degrees
+     * @return the current vector
+     */
+    public Vector rotateX(double alpha) {
+        double radianAlpha = alpha * Math.PI / 180;
 
+        double x = this.getX();
+        double y = this.getY() * Math.cos(radianAlpha) - this.getZ() * Math.sin(radianAlpha);
+        double z = this.getY() * Math.sin(radianAlpha) + this.getZ() * Math.cos(radianAlpha);
+
+        this.setCoordinate(x, y, z);
+        return this;
+    }
+
+
+    /**
+     * Rotates the vector around the y axis
+     * @param alpha the amount to rotate in degrees
+     * @return the current vector
+     */
+    public Vector rotateY(double alpha) {
+        double radianAlpha = alpha * Math.PI / 180;
+
+        double x = this.getX() * Math.cos(radianAlpha) + this.getZ() * Math.sin(radianAlpha);
+        double y = this.getY();
+        double z = -this.getX() * Math.sin(radianAlpha) + this.getZ() * Math.cos(radianAlpha);
+
+        this.setCoordinate(x, y, z);
+        return this;
+    }
+
+
+    /**
+     * Rotates the vector around the z axis
+     * @param alpha the amount to rotate in degrees
+     * @return the current vector
+     */
+    public Vector rotateZ(double alpha) {
+        double radianAlpha = alpha * Math.PI / 180;
+
+        double x = this.getX() * Math.cos(radianAlpha) - this.getY() * Math.sin(radianAlpha);
+        double y = this.getX() * Math.sin(radianAlpha) + this.getY() * Math.cos(radianAlpha);
+        double z = this.getZ();
+
+        this.setCoordinate(x, y, z);
+        return this;
+    }
 }
