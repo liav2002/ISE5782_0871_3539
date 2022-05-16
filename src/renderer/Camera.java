@@ -42,7 +42,7 @@ public class Camera {
         this.v1 = v1.normalize();
         this.v2 = v2.normalize();
 
-        if (v1.dotProduct(v2) != 0)
+        if (!Util.isZero(v1.dotProduct(v2)))
             // if they not valid
             throw new IllegalArgumentException("Non vertical");
 

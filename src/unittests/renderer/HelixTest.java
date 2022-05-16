@@ -9,6 +9,7 @@
 
 package unittests.renderer;
 
+import geometries.Cylinder;
 import geometries.Plane;
 import geometries.Sphere;
 import geometries.Tube;
@@ -34,29 +35,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author2 Liav Ariel
  */
 public class HelixTest {
-    private Scene scene = new Scene("Test scene")
-            .setAmbientLight(new AmbientLight(new Color(WHITE).reduce(5), 0.05));
+    private Scene scene = new Scene("Test scene");
+//            .setAmbientLight(new AmbientLight(new Color(WHITE).reduce(5), 0.05));
 
     /**
      * Bonus - Targil 7 - generate DNA (double helix).
      */
     @Test
     void testDNA() {
-        double tension = 0.05; // the tension
-        double rad = 0.06;  // the radios of the helix
-        double size = 0.01;  // the size of sphere
-        double length = 5;  // the total length
-        double distance = 0.1; // from point to point
-        scene.geometries.add(
-                new Plane(new Vector(0, 0, 1),
-                        new Point(0, 0, -10))
-                        .setEmission(new Color(WHITE))
-        );
+        double tension = 0.1; // the tension
+        double rad = 0.15;  // the radios of the helix
+        double size = 0.02;  // the size of sphere
+        double length = 12;  // the total length
+        double distance = 0.07; // from point to point
+        int lines = 10;
+//        scene.geometries.add(
+//                new Plane(new Vector(0, 0, 1),
+//                        new Point(0, 0, -10))
+//                        .setEmission(new Color(WHITE))
+//                        .setMaterial(new Material().setKd(0.4).setKs(0.3)
+//                                .setShininess(10).setKt(0.3).setKr(0)));
 
+        int i =0;
         for (double t = -length; t < length; t += distance) {
-            //add helix 1:
-            Point hel1 = new Point(Math.cos(t) * rad, t * tension,
-                    Math.sin(t) * rad * 10);
+            // helix 1:
+            Point hel1 = new Point(Math.cos(t) * rad, t * tension, Math.sin(t) * rad);
             scene.geometries.add(new Sphere(
                     hel1,
                     size)
@@ -64,15 +67,19 @@ public class HelixTest {
                     .setMaterial(new Material().setKd(0.4).setKs(0.3)
                             .setShininess(10).setKt(0.3).setKr(0)));
 
-            //add helix 2:
-            Point hel2 = new Point(Math.cos(t) * rad, t * tension + tension * Math.PI, Math.sin(t) * rad * 10);
+            // helix 2:
+            Point hel2 = new Point(Math.cos(t + Math.PI) * rad, t * tension, Math.sin(t + Math.PI) * rad);
             scene.geometries.add(new Sphere(
                     hel2,
                     size)
                     .setEmission(new Color(RED).reduce(2))
                     .setMaterial(new Material().setKd(0.4).setKs(0.3)
                             .setShininess(10).setKt(0.3).setKr(0)));
+
+//            if (i++ % lines == 0)
+//                scene.geometries.add(new Cylinder(0.01, hel1, hel2).setEmission(new Color(WHITE)));
         }
+        scene.geometries.add(new Cylinder(0.03, new Point(0, 0, 0), new Point(0.1, 0.1, 0.1)).setEmission(new Color(WHITE)));
 
 
         scene.lights.add(
@@ -82,14 +89,19 @@ public class HelixTest {
                 )
         );
 
+        Point source = new Point(7, -7, 7 / 2.0);
 
-
-        Camera camera = new Camera(new Point(0, 0, 70),
-                new Vector(0, 0, -1),
-                new Vector(0, 1, 0)
-        ).rotate(0, 0, 45)
+//        Camera camera = new Camera(
+//                new Point(0, 0, 20),
+//                new Vector(0, 0, -1),
+//                new Vector(0, 1, 0)
+        Camera camera = new Camera(
+                source,
+                new Vector(source.scale(-1)),
+                new Vector(0, 1, 2)
+        )
                 .setVPSize(6, 6)
-                .setVPDistance(1000);
+                .setVPDistance(70);
 
         camera.setImageWriter(new ImageWriter("doubleHelix", 500, 500))
                 .setRayTracer(new RayTracerBasic(scene))

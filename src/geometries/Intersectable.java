@@ -95,8 +95,6 @@ public abstract class Intersectable {
          * If the object is not null, and is an instance of GeoPoint, and the geometry and point are equal, then return
          * true
          *
-         * @param o - some object from geometries or primitives
-         * @return boolean true or false if equality or not
          * @param obj The object to compare to.
          * @return The hashcode of the object.
          */

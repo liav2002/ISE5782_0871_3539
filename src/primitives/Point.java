@@ -51,6 +51,10 @@ public class Point {
 
     }
 
+    public Point scale(double scale) {
+        return new Point(this.coordinate.scale(scale));
+    }
+
     public void setCoordinate(double x, double y, double z){
         this.coordinate = new Double3(x, y, z);
     }
@@ -83,6 +87,11 @@ public class Point {
         return Objects.equals(coordinate, point.coordinate);
     }
 
+    public Point crossProduct(Point vec) {
+        return new Point(this.coordinate.d2 * vec.coordinate.d3 - this.coordinate.d3 * vec.coordinate.d2,
+                this.coordinate.d3 * vec.coordinate.d1 - this.coordinate.d1 * vec.coordinate.d3,
+                this.coordinate.d1 * vec.coordinate.d2 - this.coordinate.d2 * vec.coordinate.d1);
+    }
     @Override
     public String toString() {
         return "Point{" + "coordinate=" + coordinate + '}';
