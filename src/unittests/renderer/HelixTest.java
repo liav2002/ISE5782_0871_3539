@@ -43,12 +43,11 @@ public class HelixTest {
      */
     @Test
     void testDNA() {
-        double tension = 0.1; // the tension
+        double tension = 0.25; // the tension
         double rad = 0.15;  // the radios of the helix
         double size = 0.02;  // the size of sphere
-        double length = 12;  // the total length
+        double length = 10;  // the total length
         double distance = 0.07; // from point to point
-        int lines = 10;
 //        scene.geometries.add(
 //                new Plane(new Vector(0, 0, 1),
 //                        new Point(0, 0, -10))
@@ -79,7 +78,7 @@ public class HelixTest {
 //            if (i++ % lines == 0)
 //                scene.geometries.add(new Cylinder(0.01, hel1, hel2).setEmission(new Color(WHITE)));
         }
-        scene.geometries.add(new Cylinder(0.03, new Point(0, 0, 0), new Point(0.1, 0.1, 0.1)).setEmission(new Color(WHITE)));
+//        scene.geometries.add(new Cylinder(0.03, new Point(0, 0, 0), new Point(0.1, 0.1, 0.1)).setEmission(new Color(WHITE)));
 
 
         scene.lights.add(
@@ -89,7 +88,7 @@ public class HelixTest {
                 )
         );
 
-        Point source = new Point(7, -7, 7 / 2.0);
+        Point source = new Point(7, -14, 7 / 2.0);
 
 //        Camera camera = new Camera(
 //                new Point(0, 0, 20),
@@ -98,7 +97,7 @@ public class HelixTest {
         Camera camera = new Camera(
                 source,
                 new Vector(source.scale(-1)),
-                new Vector(0, 1, 2)
+                new Vector(0, 0.5, 2)
         )
                 .setVPSize(6, 6)
                 .setVPDistance(70);

@@ -25,6 +25,7 @@ import java.util.List;
  * @author2 Liav Ariel
  */
 import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 public class Tube extends Geometry {
     protected double radius;
@@ -39,6 +40,10 @@ public class Tube extends Geometry {
     public Tube(double radius, Ray axisRay) {
         this.radius = radius;
         this.axisRay = axisRay;
+    }
+    public Tube(double radius, Point p1, Point p2) {
+        this.radius = radius;
+        this.axisRay = new Ray(p1, p1.subtract(p2));
     }
 
     @Override
@@ -77,48 +82,69 @@ public class Tube extends Geometry {
      * @return null.
      */
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-        //for using less functions we storing all teh parameters in other variables
-        double rayOriginX = ray.getP0().getX();
-        double rayOriginY = ray.getP0().getY();
-        double rayOriginZ = ray.getP0().getZ();
-        double tubeOriginX = this.axisRay.getP0().getX();
-        double tubeOriginY = this.axisRay.getP0().getY();
-        double tubeOriginZ = this.axisRay.getP0().getZ();
-        double rayDirectionX = ray.getDir().getX();
-        double rayDirectionY = ray.getDir().getY();
-        double rayDirectionZ = ray.getDir().getZ();
-        double tubeDirectionX = this.axisRay.getDir().getX();
-        double tubeDirectionY = this.axisRay.getDir().getY();
-        double tubeDirectionZ = this.axisRay.getDir().getZ();
-
-        //the discriminate for the quadratic equation
-        double discriminant = ((2 * rayOriginY * rayDirectionY * tubeDirectionX * tubeDirectionX + 2 * rayOriginZ * rayDirectionZ * tubeDirectionX * tubeDirectionX - 2 * rayDirectionY * tubeOriginY * tubeDirectionX * tubeDirectionX - 2 * rayDirectionZ * tubeOriginZ * tubeDirectionX * tubeDirectionX - 2 * rayOriginY * rayDirectionX * tubeDirectionX * tubeDirectionY - 2 * rayOriginX * rayDirectionY * tubeDirectionX * tubeDirectionY + 2 * rayDirectionY * tubeOriginX * tubeDirectionX * tubeDirectionY + 2 * rayDirectionX * tubeOriginY * tubeDirectionX * tubeDirectionY + 2 * rayOriginX * rayDirectionX * tubeDirectionY * tubeDirectionY + 2 * rayOriginZ * rayDirectionZ * tubeDirectionY * tubeDirectionY - 2 * rayDirectionX * tubeOriginX * tubeDirectionY * tubeDirectionY - 2 * rayDirectionZ * tubeOriginZ * tubeDirectionY * tubeDirectionY - 2 * rayOriginZ * rayDirectionX * tubeDirectionX * tubeDirectionZ - 2 * rayOriginX * rayDirectionZ * tubeDirectionX * tubeDirectionZ + 2 * rayDirectionZ * tubeOriginX * tubeDirectionX * tubeDirectionZ + 2 * rayDirectionX * tubeOriginZ * tubeDirectionX * tubeDirectionZ - 2 * rayOriginZ * rayDirectionY * tubeDirectionY * tubeDirectionZ - 2 * rayOriginY * rayDirectionZ * tubeDirectionY * tubeDirectionZ + 2 * rayDirectionZ * tubeOriginY * tubeDirectionY * tubeDirectionZ + 2 * rayDirectionY * tubeOriginZ * tubeDirectionY * tubeDirectionZ + 2 * rayOriginX * rayDirectionX * tubeDirectionZ * tubeDirectionZ + 2 * rayOriginY * rayDirectionY * tubeDirectionZ * tubeDirectionZ - 2 * rayDirectionX * tubeOriginX * tubeDirectionZ * tubeDirectionZ - 2 * rayDirectionY * tubeOriginY * tubeDirectionZ * tubeDirectionZ) * (2 * rayOriginY * rayDirectionY * tubeDirectionX * tubeDirectionX + 2 * rayOriginZ * rayDirectionZ * tubeDirectionX * tubeDirectionX - 2 * rayDirectionY * tubeOriginY * tubeDirectionX * tubeDirectionX - 2 * rayDirectionZ * tubeOriginZ * tubeDirectionX * tubeDirectionX - 2 * rayOriginY * rayDirectionX * tubeDirectionX * tubeDirectionY - 2 * rayOriginX * rayDirectionY * tubeDirectionX * tubeDirectionY + 2 * rayDirectionY * tubeOriginX * tubeDirectionX * tubeDirectionY + 2 * rayDirectionX * tubeOriginY * tubeDirectionX * tubeDirectionY + 2 * rayOriginX * rayDirectionX * tubeDirectionY * tubeDirectionY + 2 * rayOriginZ * rayDirectionZ * tubeDirectionY * tubeDirectionY - 2 * rayDirectionX * tubeOriginX * tubeDirectionY * tubeDirectionY - 2 * rayDirectionZ * tubeOriginZ * tubeDirectionY * tubeDirectionY - 2 * rayOriginZ * rayDirectionX * tubeDirectionX * tubeDirectionZ - 2 * rayOriginX * rayDirectionZ * tubeDirectionX * tubeDirectionZ + 2 * rayDirectionZ * tubeOriginX * tubeDirectionX * tubeDirectionZ + 2 * rayDirectionX * tubeOriginZ * tubeDirectionX * tubeDirectionZ - 2 * rayOriginZ * rayDirectionY * tubeDirectionY * tubeDirectionZ - 2 * rayOriginY * rayDirectionZ * tubeDirectionY * tubeDirectionZ + 2 * rayDirectionZ * tubeOriginY * tubeDirectionY * tubeDirectionZ + 2 * rayDirectionY * tubeOriginZ * tubeDirectionY * tubeDirectionZ + 2 * rayOriginX * rayDirectionX * tubeDirectionZ * tubeDirectionZ + 2 * rayOriginY * rayDirectionY * tubeDirectionZ * tubeDirectionZ - 2 * rayDirectionX * tubeOriginX * tubeDirectionZ * tubeDirectionZ - 2 * rayDirectionY * tubeOriginY * tubeDirectionZ * tubeDirectionZ)) - 4 * (rayDirectionY * rayDirectionY * tubeDirectionX * tubeDirectionX + rayDirectionZ * rayDirectionZ * tubeDirectionX * tubeDirectionX - 2 * rayDirectionX * rayDirectionY * tubeDirectionX * tubeDirectionY + rayDirectionX * rayDirectionX * tubeDirectionY * tubeDirectionY + rayDirectionZ * rayDirectionZ * tubeDirectionY * tubeDirectionY - 2 * rayDirectionX * rayDirectionZ * tubeDirectionX * tubeDirectionZ - 2 * rayDirectionY * rayDirectionZ * tubeDirectionY * tubeDirectionZ + rayDirectionX * rayDirectionX * tubeDirectionZ * tubeDirectionZ + rayDirectionY * rayDirectionY * tubeDirectionZ * tubeDirectionZ) * (rayOriginY * rayOriginY * tubeDirectionX * tubeDirectionX + rayOriginZ * rayOriginZ * tubeDirectionX * tubeDirectionX - 2 * rayOriginY * tubeOriginY * tubeDirectionX * tubeDirectionX + tubeOriginY * tubeOriginY * tubeDirectionX * tubeDirectionX - 2 * rayOriginZ * tubeOriginZ * tubeDirectionX * tubeDirectionX + tubeOriginZ * tubeOriginZ * tubeDirectionX * tubeDirectionX - 2 * rayOriginX * rayOriginY * tubeDirectionX * tubeDirectionY + 2 * rayOriginY * tubeOriginX * tubeDirectionX * tubeDirectionY + 2 * rayOriginX * tubeOriginY * tubeDirectionX * tubeDirectionY - 2 * tubeOriginX * tubeOriginY * tubeDirectionX * tubeDirectionY + rayOriginX * rayOriginX * tubeDirectionY * tubeDirectionY + rayOriginZ * rayOriginZ * tubeDirectionY * tubeDirectionY - 2 * rayOriginX * tubeOriginX * tubeDirectionY * tubeDirectionY + tubeOriginX * tubeOriginX * tubeDirectionY * tubeDirectionY - 2 * rayOriginZ * tubeOriginZ * tubeDirectionY * tubeDirectionY + tubeOriginZ * tubeOriginZ * tubeDirectionY * tubeDirectionY - 2 * rayOriginX * rayOriginZ * tubeDirectionX * tubeDirectionZ + 2 * rayOriginZ * tubeOriginX * tubeDirectionX * tubeDirectionZ + 2 * rayOriginX * tubeOriginZ * tubeDirectionX * tubeDirectionZ - 2 * tubeOriginX * tubeOriginZ * tubeDirectionX * tubeDirectionZ - 2 * rayOriginY * rayOriginZ * tubeDirectionY * tubeDirectionZ + 2 * rayOriginZ * tubeOriginY * tubeDirectionY * tubeDirectionZ + 2 * rayOriginY * tubeOriginZ * tubeDirectionY * tubeDirectionZ - 2 * tubeOriginY * tubeOriginZ * tubeDirectionY * tubeDirectionZ + rayOriginX * rayOriginX * tubeDirectionZ * tubeDirectionZ + rayOriginY * rayOriginY * tubeDirectionZ * tubeDirectionZ - 2 * rayOriginX * tubeOriginX * tubeDirectionZ * tubeDirectionZ + tubeOriginX * tubeOriginX * tubeDirectionZ * tubeDirectionZ - 2 * rayOriginY * tubeOriginY * tubeDirectionZ * tubeDirectionZ + tubeOriginY * tubeOriginY * tubeDirectionZ * tubeDirectionZ - tubeDirectionX * tubeDirectionX * this.radius * this.radius - tubeDirectionY * tubeDirectionY * this.radius * this.radius - tubeDirectionZ * tubeDirectionZ * this.radius * this.radius);
-        //-b for the quadratic equation
-        final double Bminus = -2 * rayOriginY * rayDirectionY * tubeDirectionX * tubeDirectionX - 2 * rayOriginZ * rayDirectionZ * tubeDirectionX * tubeDirectionX + 2 * rayDirectionY * tubeOriginY * tubeDirectionX * tubeDirectionX + 2 * rayDirectionZ * tubeOriginZ * tubeDirectionX * tubeDirectionX + 2 * rayOriginY * rayDirectionX * tubeDirectionX * tubeDirectionY + 2 * rayOriginX * rayDirectionY * tubeDirectionX * tubeDirectionY - 2 * rayDirectionY * tubeOriginX * tubeDirectionX * tubeDirectionY - 2 * rayDirectionX * tubeOriginY * tubeDirectionX * tubeDirectionY - 2 * rayOriginX * rayDirectionX * tubeDirectionY * tubeDirectionY - 2 * rayOriginZ * rayDirectionZ * tubeDirectionY * tubeDirectionY + 2 * rayDirectionX * tubeOriginX * tubeDirectionY * tubeDirectionY + 2 * rayDirectionZ * tubeOriginZ * tubeDirectionY * tubeDirectionY + 2 * rayOriginZ * rayDirectionX * tubeDirectionX * tubeDirectionZ + 2 * rayOriginX * rayDirectionZ * tubeDirectionX * tubeDirectionZ - 2 * rayDirectionZ * tubeOriginX * tubeDirectionX * tubeDirectionZ - 2 * rayDirectionX * tubeOriginZ * tubeDirectionX * tubeDirectionZ + 2 * rayOriginZ * rayDirectionY * tubeDirectionY * tubeDirectionZ + 2 * rayOriginY * rayDirectionZ * tubeDirectionY * tubeDirectionZ - 2 * rayDirectionZ * tubeOriginY * tubeDirectionY * tubeDirectionZ - 2 * rayDirectionY * tubeOriginZ * tubeDirectionY * tubeDirectionZ - 2 * rayOriginX * rayDirectionX * tubeDirectionZ * tubeDirectionZ - 2 * rayOriginY * rayDirectionY * tubeDirectionZ * tubeDirectionZ + 2 * rayDirectionX * tubeOriginX * tubeDirectionZ * tubeDirectionZ + 2 * rayDirectionY * tubeOriginY * tubeDirectionZ * tubeDirectionZ;
-        //the denominator for the quadratic equation
-        final double aTwo = 2 * (rayDirectionY * rayDirectionY * tubeDirectionX * tubeDirectionX + rayDirectionZ * rayDirectionZ * tubeDirectionX * tubeDirectionX - 2 * rayDirectionX * rayDirectionY * tubeDirectionX * tubeDirectionY + rayDirectionX * rayDirectionX * tubeDirectionY * tubeDirectionY + rayDirectionZ * rayDirectionZ * tubeDirectionY * tubeDirectionY - 2 * rayDirectionX * rayDirectionZ * tubeDirectionX * tubeDirectionZ - 2 * rayDirectionY * rayDirectionZ * tubeDirectionY * tubeDirectionZ + rayDirectionX * rayDirectionX * tubeDirectionZ * tubeDirectionZ + rayDirectionY * rayDirectionY * tubeDirectionZ * tubeDirectionZ);
-        //no intersection or tangent
-        if (discriminant <= 0) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance)
+    {
+        Vector d = axisRay.getDir();
+        Vector v = axisRay.getDir();
+        if(d.equals(v) || d.equals(v.scale(-1)))
             return null;
+
+        LinkedList<GeoPoint> res = new LinkedList<GeoPoint>();
+        Vector x = axisRay.getP0().subtract(axisRay.getP0());
+        Vector nx = x.normalize();
+        double dv = d.dotProduct(v);
+        if(axisRay.getP0().equals(axisRay.getP0()) || nx.equals(v) || nx.equals(v.scale(-1)))
+        {
+            if(isZero(dv))
+            {
+                res.add(new GeoPoint(this, axisRay.getPoint(radius)));
+                return res;
+            }
+            res.add(new GeoPoint(this, axisRay.getPoint(Math.sqrt(radius * radius / d.subtract(v.scale(dv)).lengthSquared()))));
+            return res;
         }
 
-        //there must be 2 intersection points
-        List<GeoPoint> ret = new LinkedList<GeoPoint>();//we using linked list so we could remove points if using cylinder
-        //add only the positive results to the list
-        boolean listEmpty = true;
-        double t = (Bminus - Math.sqrt(discriminant)) / aTwo;
-        if (t > 0 && alignZero(t - maxDistance) <= 0) {
-            listEmpty = false;
-            ret.add(new GeoPoint(this, ray.getPoint(t)));
+        double xv = x.dotProduct(v);
+
+        double a = 1 - dv * dv;
+        double b = 2 * x.dotProduct(d) - 2 * dv * xv;
+        double c = x.lengthSquared() - xv * xv - radius * radius;
+
+        double disc = alignZero(b * b - 4 * a * c);
+
+        if(disc < 0)
+            return null;
+
+        double t;
+
+        if(disc == 0)
+        {
+            if(isZero(dv))
+                return null;
+
+            t = alignZero(-b / 2 * a);
+
+            if(t <= 0)
+                return null;
+
+            res.add(new GeoPoint(this, axisRay.getPoint(t)));
+            return res;
         }
-        t = (Bminus + Math.sqrt(discriminant)) / aTwo;
-        //(-b - Math.sqrt(discriminant)) / (2 * a);
-        if (t > 0 && alignZero(t - maxDistance) <= 0) {
-            listEmpty = false;
-            ret.add(new GeoPoint(this, ray.getPoint(t)));
-        }
-        return listEmpty ? null : ret;
+
+        double sqrtDisc = Math.sqrt(disc);
+        t = alignZero((-b + sqrtDisc) / 2 * a);
+
+        if(t > 0)
+            res.add(new GeoPoint(this, axisRay.getPoint(t)));
+
+        t = alignZero((-b - sqrtDisc) / 2 * a);
+
+        if(t > 0)
+            res.add(new GeoPoint(this, axisRay.getPoint(t)));
+
+        if(res.isEmpty())
+            return null;
+        return res;
     }
 
     @Override

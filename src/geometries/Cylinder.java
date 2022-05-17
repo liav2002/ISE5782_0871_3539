@@ -24,19 +24,26 @@ import primitives.Vector;
 import java.util.LinkedList;
 import java.util.List;
 
+import static primitives.Util.alignZero;
+
 public class Cylinder extends Tube {
     private double height;
 
     /**
      * Implement default constructor.
      *
-     * @param height - cylinder's height.
-     * @param radius - cylinder's base radius.
+     * @param height  - cylinder's height.
+     * @param radius  - cylinder's base radius.
      * @param axisRay - cylinder's direction on the 3D space.
      */
     public Cylinder(double height, double radius, Ray axisRay) {
         super(radius, axisRay);
         this.height = height;
+    }
+
+    public Cylinder(double r, Point p1, Point p2) {
+        super(r, p1, p2);
+        this.height = p2.distance(p1);
     }
 
     @Override
@@ -59,12 +66,13 @@ public class Cylinder extends Tube {
 
     /**
      * getter for height.
+     *
      * @return Cylinder's height.
      */
     public double getHeight() {
         return this.height;
     }
-    
+
     private Point planesIntersection(Plane cylinderPlane, Ray ray) {
         List<Point> planesIntersections = cylinderPlane.findIntersections(ray);
         if (planesIntersections != null && planesIntersections.get(0).distance(cylinderPlane.getQ0()) < this.radius) {
@@ -75,23 +83,61 @@ public class Cylinder extends Tube {
 
     @Override
     public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double distance) {
-        List<GeoPoint> ret = super.findGeoIntersections(ray, distance);
-        if (ret == null) {
-            ret = new LinkedList<GeoPoint>();
-        } else {
-            System.out.print("");
+        List<GeoPoint> intersections = super.findGeoIntersectionsHelper(axisRay, distance);
+
+        Point p0 = getAxisRay().getP0();
+        Vector dir = getAxisRay().getDir();
+
+        if (intersections != null) {
+            LinkedList<GeoPoint> temp = new LinkedList<GeoPoint>();
+
+            for (GeoPoint g : intersections) {
+                double pointHeight = alignZero(g.point.subtract(p0).dotProduct(dir));
+                if (pointHeight > 0 && pointHeight < height) {
+                    temp.add(g);
+                }
+            }
+
+            if (temp.isEmpty()) {
+                intersections = null;
+            } else {
+                intersections = temp;
+            }
         }
-        Plane bottomPlane = new Plane(this.axisRay.getDir(), this.axisRay.getP0());
-        Plane topPlane = new Plane(this.axisRay.getDir(), this.axisRay.getPoint(this.height));
-        ret.removeIf(point -> !onCylinder(point.point));//remove all the points that out of the cylinder boundary
-        Point intersectingPoint = planesIntersection(topPlane, ray);
-        addIfNotNullOrFar(ret, intersectingPoint, ray.getP0(), distance);
-        intersectingPoint = planesIntersection(bottomPlane, ray);
-        addIfNotNullOrFar(ret, intersectingPoint, ray.getP0(), distance);
-        if (ret.size() == 0) {
-            return null;
+
+        List<GeoPoint> planeIntersection = new Plane(dir, p0).findGeoIntersections(axisRay);
+        if (planeIntersection != null) {
+            GeoPoint point = planeIntersection.get(0);
+            if (point.point.equals(p0) || alignZero(point.point.subtract(p0).lengthSquared() - getRadius() * getRadius()) < 0) {
+                if (intersections == null) {
+                    intersections = new LinkedList<>();
+                }
+                point.geometry = this;
+                intersections.add(point);
+            }
         }
-        return ret;
+
+        Point p1 = p0.add(dir.scale(height));
+
+        planeIntersection = new Plane(dir, p1).findGeoIntersections(axisRay);
+        if (planeIntersection != null) {
+            GeoPoint point = planeIntersection.get(0);
+            if (point.point.equals(p1) || alignZero(point.point.subtract(p1).lengthSquared() - getRadius() * getRadius()) < 0) {
+                if (intersections == null) {
+                    intersections = new LinkedList<>();
+                }
+                point.geometry = this;
+                intersections.add(point);
+            }
+        }
+
+        if (intersections != null) {
+            for (GeoPoint g : intersections) {
+                g.geometry = this;
+            }
+        }
+
+        return intersections;
     }
 
     private boolean onCylinder(Point pt) {
