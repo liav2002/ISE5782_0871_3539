@@ -24,6 +24,8 @@ import renderer.RayTracerBasic;
 import scene.Scene;
 
 import java.lang.Math;
+import java.time.Duration;
+import java.time.Instant;
 
 import static java.awt.Color.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -70,8 +72,12 @@ public class HelixTest {
         int frames = 64; // the number of frames
         double k = Math.PI / frames;
         for (double i = 0; i < Math.PI; i += k) {
-            System.out.println("Render: " + (i / k));
+            Instant start = Instant.now();
             testDNA(i);
+            Instant finish = Instant.now();
+            System.out.println(
+                    "Render: " + Math.round(i / k) + ", time: " + Duration.between(start, finish).toMillis() + "ms");
+
         }
     }
 
