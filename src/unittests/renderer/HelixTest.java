@@ -70,31 +70,30 @@ public class HelixTest {
 
 
         int frames = 64; // the number of frames
-        double k = Math.PI / frames;
-        for (double i = 0; i < Math.PI; i += k) {
+        for (int i = 0; i < frames; i++) {
             Instant start = Instant.now();
             testDNA(i);
             Instant finish = Instant.now();
             System.out.println(
-                    "Render: " + Math.round(i / k) + ", time: " + Duration.between(start, finish).toMillis() + "ms");
+                    "Render: " + i + ", time: " + Duration.between(start, finish).toMillis() + "ms");
 
         }
     }
 
-    void testDNA(double start) {
+    void testDNA(int k) {
         double tension = 0.15; // the tension
         double rad = 0.15;  // the radios of the helix
         double size = 0.02;  // the size of sphere
         double length = 9;  // the total length
         double distance = 0.1; // from point to point
         int lines = 6;  // the number of sphere between 2 cylinders
-
+        double degree = k / Math.PI;
         Scene s = scene.clone();  // copy the existing scene
 
         int i = 0;
         for (double t = -length; t < length; t += distance) {
             // helix 1:
-            Point hel1 = new Point(Math.cos(t + start) * rad, t * tension, Math.sin(t + start) * rad);
+            Point hel1 = new Point(Math.cos(t + degree) * rad, t * tension, Math.sin(t + degree) * rad);
             s.geometries.add(new Sphere(
                     hel1,
                     size)
@@ -103,7 +102,7 @@ public class HelixTest {
                             .setKd(0.2).setKs(0.2).setShininess(30).setKt(0.6)));
 
             // helix 2:
-            Point hel2 = new Point(Math.cos(t + Math.PI + start) * rad, t * tension, Math.sin(t + Math.PI + start) * rad);
+            Point hel2 = new Point(Math.cos(t + Math.PI + degree) * rad, t * tension, Math.sin(t + Math.PI + degree) * rad);
             s.geometries.add(new Sphere(
                     hel2,
                     size)
@@ -115,7 +114,7 @@ public class HelixTest {
                 s.geometries.add(new Cylinder(0.005, hel2, hel1).setEmission(new Color(WHITE)));
         }
 
-        camera.setImageWriter(new ImageWriter("gif/" + start, 500, 500))
+        camera.setImageWriter(new ImageWriter("gif/" + k, 500, 500))
                 .setRayTracer(new RayTracerBasic(s))
                 .renderImage()
                 .writeToImage();
