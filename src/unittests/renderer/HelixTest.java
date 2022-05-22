@@ -77,15 +77,15 @@ public class HelixTest {
                             .setKd(0.2).setKs(0.2).setShininess(30).setKt(0.6)));
 
             if (i++ % lines == 0)
-                scene.geometries.add(new Cylinder(0.005, hel2, hel1).setEmission(new Color(BLACK)));
+                scene.geometries.add(new Cylinder(0.005, hel2, hel1).setEmission(new Color(WHITE)));
         }
 //        scene.geometries.add(new Cylinder(0.03, new Point(0, 0, 0), new Point(0.1, 0.1, 0.1)).setEmission(new Color(WHITE)));
 
         scene.lights.add(
                 new SpotLight(
                         new Color(700, 400, 400),
-                        new Point(14, -10, 4),
-                        new Vector(-14, 10, -4)) //
+                        new Point(12.5, -8, 4),
+                        new Vector(-12.5, 8, -4)) //
                 .setKl(4E-5).setKq(2E-7));
 
 
