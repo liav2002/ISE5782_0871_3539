@@ -12,9 +12,6 @@ package unittests.renderer;
 import geometries.Cylinder;
 import geometries.Plane;
 import geometries.Sphere;
-import geometries.Tube;
-import lighting.AmbientLight;
-import lighting.DirectionalLight;
 import lighting.SpotLight;
 import org.junit.jupiter.api.Test;
 import primitives.*;
@@ -23,9 +20,11 @@ import renderer.ImageWriter;
 import renderer.RayTracerBasic;
 import scene.Scene;
 
+import java.io.IOException;
 import java.lang.Math;
 import java.time.Duration;
 import java.time.Instant;
+
 
 import static java.awt.Color.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,7 +50,7 @@ public class HelixTest {
             .setVPDistance(50);
 
     @Test
-    void testGIF() {
+    void testGIF() throws IOException {
 
         scene.geometries.add(
                 new Plane(
@@ -68,26 +67,34 @@ public class HelixTest {
                         new Vector(-12.5, 9, -4)) //
                         .setKl(4E-5).setKq(2E-7));
 
-
+        Scene s;
         int frames = 64; // the number of frames
-        for (int i = 0; i < frames; i++) {
+        double jump = Math.PI * 2 / frames;
+
+
+        for (double i = 0; i < Math.PI * 2; i += jump) {
             Instant start = Instant.now();
-            testDNA(i);
+
+            s = getSnapshot(i);
+            camera.setImageWriter(new ImageWriter("gif/" + Math.round(i / jump), 500, 500))
+                    .setRayTracer(new RayTracerBasic(s))
+                    .renderImage()
+                    .writeToImage();
+
             Instant finish = Instant.now();
             System.out.println(
-                    "Render: " + i + ", time: " + Duration.between(start, finish).toMillis() + "ms");
+                    "Render: " + Math.round(i / jump) + ", time: " + Duration.between(start, finish).toMillis() + "ms");
 
         }
     }
 
-    void testDNA(int k) {
+    Scene getSnapshot(double degree) {
         double tension = 0.15; // the tension
         double rad = 0.15;  // the radios of the helix
         double size = 0.02;  // the size of sphere
         double length = 9;  // the total length
         double distance = 0.1; // from point to point
         int lines = 6;  // the number of sphere between 2 cylinders
-        double degree = k / Math.PI;
         Scene s = scene.clone();  // copy the existing scene
 
         int i = 0;
@@ -114,9 +121,6 @@ public class HelixTest {
                 s.geometries.add(new Cylinder(0.005, hel2, hel1).setEmission(new Color(WHITE)));
         }
 
-        camera.setImageWriter(new ImageWriter("gif/" + k, 500, 500))
-                .setRayTracer(new RayTracerBasic(s))
-                .renderImage()
-                .writeToImage();
+        return s;
     }
 }
