@@ -67,7 +67,7 @@ public class HelixTest {
                         .setKl(4E-5).setKq(2E-7));
 
 
-        int frames = 2; // the number of frames
+        int frames = 64; // the number of frames
         double k = Math.PI / frames;
         for (double i = 0; i < Math.PI; i += k) {
             System.out.println("Render: " + (i / k));
