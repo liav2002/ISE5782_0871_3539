@@ -35,8 +35,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author2 Liav Ariel
  */
 public class HelixTest {
-    private Scene scene = new Scene("Test scene");
-//            .setAmbientLight(new AmbientLight(new Color(WHITE).reduce(5), 0.05));
+    private Scene scene = new Scene("Test scene")
+           ;// .setAmbientLight(new AmbientLight(new Color(WHITE), 0.15));
 
     /**
      * Bonus - Targil 7 - generate DNA (double helix).
@@ -48,13 +48,13 @@ public class HelixTest {
         double size = 0.02;  // the size of sphere
         double length = 12;  // the total length
         double distance = 0.07; // from point to point
-        int lines = 10;  // the number of sphere between 2 cylinders
-//        scene.geometries.add(
-//                new Plane(new Vector(0, 0, 1),
-//                        new Point(0, 0, -10))
-//                        .setEmission(new Color(WHITE))
-//                        .setMaterial(new Material().setKd(0.4).setKs(0.3)
-//                                .setShininess(10).setKt(0.3).setKr(0)));
+        int lines = 6;  // the number of sphere between 2 cylinders
+
+        scene.geometries.add(
+                new Plane(new Vector(0, 0, 1),
+                        new Point(0, 0, -10))
+                        .setEmission(new Color(BLACK))
+                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60)));
 
         int i = 0;
         for (double t = -length; t < length; t += distance) {
@@ -64,8 +64,8 @@ public class HelixTest {
                     hel1,
                     size)
                     .setEmission(new Color(BLUE).reduce(2))
-                    .setMaterial(new Material().setKd(0.4).setKs(0.3)
-                            .setShininess(10).setKt(0.3).setKr(0)));
+                    .setMaterial(new Material()
+                            .setKd(0.2).setKs(0.2).setShininess(30).setKt(0.6)));
 
             // helix 2:
             Point hel2 = new Point(Math.cos(t + Math.PI) * rad, t * tension, Math.sin(t + Math.PI) * rad);
@@ -73,21 +73,21 @@ public class HelixTest {
                     hel2,
                     size)
                     .setEmission(new Color(RED).reduce(2))
-                    .setMaterial(new Material().setKd(0.4).setKs(0.3)
-                            .setShininess(10).setKt(0.3).setKr(0)));
+                    .setMaterial(new Material()
+                            .setKd(0.2).setKs(0.2).setShininess(30).setKt(0.6)));
 
             if (i++ % lines == 0)
-                scene.geometries.add(new Tube(0.001, hel1, hel2).setEmission(new Color(WHITE)));
+                scene.geometries.add(new Cylinder(0.005, hel2, hel1).setEmission(new Color(BLACK)));
         }
 //        scene.geometries.add(new Cylinder(0.03, new Point(0, 0, 0), new Point(0.1, 0.1, 0.1)).setEmission(new Color(WHITE)));
 
-
         scene.lights.add(
-                new SpotLight(new Color(GREEN).reduce(2),
-                        new Point(50, 10, 50),
-                        new Vector(-0.2, 0, -1)
-                )
-        );
+                new SpotLight(
+                        new Color(700, 400, 400),
+                        new Point(14, -10, 4),
+                        new Vector(-14, 10, -4)) //
+                .setKl(4E-5).setKq(2E-7));
+
 
         Point source = new Point(10, -7, 3.5);
 

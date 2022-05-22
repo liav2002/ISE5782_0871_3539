@@ -26,12 +26,14 @@ public class Ray {
     private Vector dir;
 
     private static final double DELTA = 0.1;
-    public Ray(Point p, Vector Vec, Vector n){
-        Vector Delta = n.scale(n.dotProduct(Vec) > 0 ? DELTA : - DELTA);
+
+    public Ray(Point p, Vector Vec, Vector n) {
+        Vector Delta = n.scale(n.dotProduct(Vec) > 0 ? DELTA : -DELTA);
         Point point = p.add(Delta);
         p0 = point;
         dir = Vec.normalize();
     }
+
     /**
      * ray constructor
      *
@@ -41,6 +43,11 @@ public class Ray {
     public Ray(Point p0, Vector dir) {
         this.p0 = p0;
         this.dir = dir.normalize();
+    }
+
+    public Ray(Point p1, Point p2) {
+        this.p0 = p1;
+        this.dir = p1.subtract(p2).normalize();
     }
 
     // Getters
