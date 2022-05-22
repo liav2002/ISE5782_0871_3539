@@ -58,4 +58,13 @@ public class Scene {
         return this;
     }
 
+    public Scene clone(){
+        return new Scene()
+                .setBackground(this.background)
+                .setAmbientLight(this.ambientLight)
+                .setLights(this.lights)
+                .setGeometries(this.geometries.clone());
+    }
+
+
 }

@@ -33,6 +33,7 @@ public class Geometries extends Intersectable {
 
     /**
      * default constructor with parameters.
+     *
      * @param Geometries - linked list of the geometries we stored.
      */
     public Geometries(Intersectable... Geometries) {
@@ -47,6 +48,7 @@ public class Geometries extends Intersectable {
 
     /**
      * method for adding geometries to the linked list.
+     *
      * @param Geometries - linked list of geometries to add.
      */
     public void add(Intersectable... Geometries) {
@@ -57,6 +59,7 @@ public class Geometries extends Intersectable {
 
     /**
      * getter to geometries list.
+     *
      * @return geometries list.
      */
     public List<Intersectable> getList() {
@@ -99,5 +102,13 @@ public class Geometries extends Intersectable {
             }
         }
         return ret.isEmpty() ? null : ret;
+    }
+
+    public Geometries clone() {
+        Geometries g = new Geometries();
+        for (int i = 0; i < this.list.size(); i++)
+            g.add(this.list.get(i));
+
+        return g;
     }
 }
