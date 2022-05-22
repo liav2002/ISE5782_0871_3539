@@ -62,12 +62,12 @@ public class HelixTest {
         scene.lights.add(
                 new SpotLight(
                         new Color(700, 400, 400),
-                        new Point(12.5, -8, 4),
-                        new Vector(-12.5, 8, -4)) //
+                        new Point(12.5, -9, 4),
+                        new Vector(-12.5, 9, -4)) //
                         .setKl(4E-5).setKq(2E-7));
 
 
-        int frames = 32; // the number of frames
+        int frames = 2; // the number of frames
         double k = Math.PI / frames;
         for (double i = 0; i < Math.PI; i += k) {
             System.out.println("Render: " + (i / k));
