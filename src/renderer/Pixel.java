@@ -39,6 +39,7 @@ class Pixel {
         Pixel.maxRows = maxRows;
         Pixel.maxCols = maxCols;
         Pixel.totalPixels = (long) maxRows * maxCols;
+
         cRow = 0;
         cCol = -1;
         pixels = 0;
