@@ -20,7 +20,8 @@ public class Camera {
     private Vector v2; // Up
     private Vector v3; // Right
 
-
+    private double printInterval;
+    private int threadsCount;
     // the view plane
     private double height;  // the height of the camera from the screen
     private double width;  // the width of the camera from the screen
@@ -81,6 +82,11 @@ public class Camera {
         return this; // the Builder design pattern
     }
 
+    private Color castRay(int c, int r) {
+        Ray ray = constructRay(imageWriter.getNx(), imageWriter.getNy(), c, r);
+        return rayTracer.traceRay(ray);
+    }
+
     /**
      * Generate a ray from camera to a middle of a given pixel
      *
@@ -112,10 +118,11 @@ public class Camera {
      * Prints a grid of the specified color on the image
      *
      * @param interval The interval between grid lines.
-     * @param color The color of the grid lines.
+     * @param color    The color of the grid lines.
      */
-    public void printGrid(int interval, Color color) {
+    public Camera printGrid(int interval, Color color) {
         imageWriter.printGrid(interval, color);
+        return this;
     }
 
     /**
@@ -202,4 +209,16 @@ public class Camera {
     public void writeToImage() {
         imageWriter.writeToImage();
     }
+
+    public Camera setDebugPrint(double k) {
+        this.printInterval = k;
+        return this;
+    }
+
+    public Camera setMultithreading(int n) {
+        this.threadsCount = n;
+        return this;
+    }
+
+
 }
