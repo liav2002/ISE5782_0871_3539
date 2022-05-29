@@ -75,7 +75,7 @@ public class HelixTest {
                         .setKl(4E-5).setKq(2E-7));
 
         Scene s;
-        int frames = 100; // the number of frames
+        int frames = 1; // the number of frames
         double jump = Math.PI * 2 / frames;
 
         String pwd = Paths.get("").toAbsolutePath() + "\\images\\";

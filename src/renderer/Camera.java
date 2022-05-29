@@ -9,6 +9,7 @@
 
 package renderer;
 
+import geometries.Plane;
 import primitives.*;
 
 import java.util.MissingResourceException;
@@ -22,10 +23,22 @@ public class Camera {
 
     private double printInterval;
     private int threadsCount;
+
     // the view plane
     private double height;  // the height of the camera from the screen
     private double width;  // the width of the camera from the screen
     private double distance; // the distance of the camera from the screen
+
+    //Aperture properties
+    private final int APERTURE_NUMBER_OF_POINTS = 100;
+
+    //number with integer square for the matrix of points.
+    private double apertureSize;
+    private Point[] aperturePoints;
+
+    //the focal plane parameters
+    private double FP_distance;
+    private Plane FOCAL_PLANE;
 
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
@@ -42,6 +55,7 @@ public class Camera {
         this.position = position;
         this.v1 = v1.normalize();
         this.v2 = v2.normalize();
+        this.apertureSize = 0;
 
         if (!Util.isZero(v1.dotProduct(v2)))
             // if they not valid
@@ -82,10 +96,81 @@ public class Camera {
         return this; // the Builder design pattern
     }
 
+    public Camera setFPDistance(double distance) {
+        this.FP_distance = distance;
+        this.FOCAL_PLANE = new Plane(this.v1, this.position.add(this.v1.scale(FP_distance)));
+        return this;
+    }
+
+    /**
+    * setting the aperture size as the given parameter, and initialize the points array.
+    *
+    * @param size the given parameter.
+    * @return the camera itself for farther initialization.
+    */
+    public Camera setApertureSize(double size) {
+        this.apertureSize = size;
+
+        /////initializing the points of the aperture.
+        if (size != 0) initializeAperturePoint();
+
+        return this;
+    }
+
+    /**
+    * the function that initialize the aperture size and the points that it represents.
+    */
+    private void initializeAperturePoint() {
+        //the number of points in a row
+        int pointsInRow = (int)Math.sqrt(this.APERTURE_NUMBER_OF_POINTS);
+
+        //the array of point saved as an array
+        this.aperturePoints = new Point[pointsInRow * pointsInRow];
+
+        //calculating the initial values.
+        double pointsDistance = (this.apertureSize * 2) / pointsInRow;
+
+        //calculate the initial point to be the point with coordinates outside the aperture in the down left point, so we won`t have to deal with illegal vectors.
+        Point initialPoint = this.position
+                .add(this.v2.scale(-this.apertureSize - pointsDistance / 2)
+                        .add(this.v3.scale(-this.apertureSize - pointsDistance / 2)));
+
+        //initializing the points array
+        for (int i = 1; i <= pointsInRow; i++) {
+            for (int j = 1; j <= pointsInRow; j++) {
+                this.aperturePoints[(i - 1) + (j - 1) * pointsInRow] = initialPoint
+                        .add(this.v2.scale(i * pointsDistance).add(this.v3.scale(j * pointsDistance)));
+            }
+        }
+    }
+
+
     private Color castRay(int c, int r) {
         Ray ray = constructRay(imageWriter.getNx(), imageWriter.getNy(), c, r);
         return rayTracer.traceRay(ray);
     }
+
+    /**
+    * the function that goes through every point in the array and calculate the average color.
+    *
+    * @param ray the original ray to construct the surrounding beam.
+    * @return the average color of the beam.
+    */
+    private Color averagedBeamColor(Ray ray){
+        Color averageColor = Color.BLACK, apertureColor;
+        int numOfPoints = this.aperturePoints.length;
+        Ray apertureRay;
+        Point focalPoint = this.FOCAL_PLANE.findGeoIntersections(ray).get(0).point;
+
+        for (Point aperturePoint : this.aperturePoints) {
+            apertureRay = new Ray(aperturePoint, focalPoint.subtract(aperturePoint));
+            apertureColor = rayTracer.traceRay(apertureRay);
+            averageColor = averageColor.add(apertureColor.reduce(numOfPoints));
+        }
+
+        return averageColor;
+    }
+
 
     /**
      * Generate a ray from camera to a middle of a given pixel
