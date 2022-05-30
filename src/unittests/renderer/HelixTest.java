@@ -55,7 +55,8 @@ public class HelixTest {
     )
             .setVPSize(6, 6)
             .setVPDistance(50)
-            .setNumOfRays(50);
+            .setFPDistance(10)
+            .setApertureSize(0.2);
 
     @Test
     void testGIF() throws IOException {

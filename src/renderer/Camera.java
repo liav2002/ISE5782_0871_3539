@@ -13,6 +13,7 @@ import geometries.Plane;
 import primitives.*;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.MissingResourceException;
 
 import static primitives.Util.isZero;
@@ -27,7 +28,7 @@ public class Camera {
 
     private double printInterval;
     private int threadsCount;
-    private int numOfRays = 0;
+    private int numOfRays = 1;
 
     // the view plane
     private double height;  // the height of the camera from the screen
@@ -169,7 +170,7 @@ public class Camera {
      * @param i  the row number of the pixel
      * @return A list of rays that are being sent from the camera to the scene.
      */
-    public LinkedList<Ray> constructRayAnalising(int nX, int nY, int j, int i) {
+    public List<Ray> constructRayAnalising(int nX, int nY, int j, int i) {
         if (isZero(distance))
             throw new IllegalArgumentException("distance can't be 0");
 
@@ -230,18 +231,18 @@ public class Camera {
      * @param rays A list of rays to be traced.
      * @return The average color of the rays.
      */
-    public Color AverageColor(LinkedList<Ray> rays) {
+    public Color AverageColor(List<Ray> rays) {
         Color color = Color.BLACK;
         for (Ray ray : rays) {
             color = color.add(rayTracer.traceRay(ray));
         }
 
-        return color.reduce(Double.valueOf(rays.size()));
+        return color.reduce(rays.size());
     }
 
     private Color castRay(int nX, int nY, int c, int r) {
-        if (!isZero(this.numOfRays)) {
-            LinkedList<Ray> rays;
+        if (this.numOfRays != 1) {
+            List<Ray> rays;
             rays = this.constructRayAnalising(nX, nY, c, r);
 
             return isZero(this.apertureSize) ? AverageColor(rays) : averagedBeamColor(constructRay(nX, nY, c, r));
