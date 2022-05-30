@@ -147,7 +147,7 @@ public class Camera {
 
     private Color castRay(int c, int r) {
         Ray ray = constructRay(imageWriter.getNx(), imageWriter.getNy(), c, r);
-        return rayTracer.traceRay(ray);
+        return this.apertureSize > 0 ? averagedBeamColor(ray) : rayTracer.traceRay(ray);
     }
 
     /**
@@ -227,8 +227,7 @@ public class Camera {
             int nY = imageWriter.getNy();
             for (int i = 0; i < nX; i++) {
                 for (int j = 0; j < nY; j++) {
-                    Ray ray = constructRay(nX, nY, j, i);
-                    Color pixelColor = rayTracer.traceRay(ray);
+                    Color pixelColor = castRay(j, i);
                     imageWriter.writePixel(j, i, pixelColor);
                 }
             }
