@@ -46,27 +46,25 @@ public class HelixTest {
     Scene scene = new Scene("Test scene");
 
 
-    Point source = new Point(10, -7, 3.5);
+    Point source = new Point(1, 10, 1);
 
     Camera camera = new Camera(
             source,
             new Vector(source.scale(-1)),
-            new Vector(0, 1, 2)
+            new Vector(0, 1, -10)
     )
             .setVPSize(6, 6)
-            .setVPDistance(50)
-            .setFPDistance(0.2)
-            .setApertureSize(0.2);
+            .setVPDistance(50);
 
     @Test
     void testGIF() throws IOException {
 
-        scene.geometries.add(
-                new Plane(
-                        new Vector(0, 0, 1),
-                        new Point(0, 0, -10))
-                        .setEmission(new Color(BLACK))
-                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60)));
+//        scene.geometries.add(
+//                new Plane(
+//                        new Vector(0, 1, 0),
+//                        new Point(1, 10, -4))
+//                        .setEmission(new Color(BLACK))
+//                        .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(60)));
 
 
         scene.lights.add(
@@ -90,7 +88,7 @@ public class HelixTest {
         for (double i = 0; i < Math.PI * 2; i += jump) {
             Instant start = Instant.now();
             s = getSnapshot(i);
-            camera.setImageWriter(new ImageWriter(file, 1000, 1000))
+            camera.setImageWriter(new ImageWriter(file, 500, 500))
                     .setRayTracer(new RayTracerBasic(s))
                     .renderImage()
                     .writeToImage();
@@ -106,12 +104,12 @@ public class HelixTest {
     }
 
     Scene getSnapshot(double degree) {
-        double tension = 0.15; // the tension
+        double tension = 0.5; // the tension
         double rad = 0.15;  // the radios of the helix
         double size = 0.02;  // the size of sphere
-        double length = 10;  // the total length
-        double distance = 0.025; // from point to point
-        int lines = 6  * 4;  // the number of sphere between 2 cylinders
+        double length = 25;  // the total length
+        double distance = 0.1; // from point to point
+        int lines = 6 * 1;  // the number of sphere between 2 cylinders
         Scene s = scene.clone();  // copy the existing scene
 
         int i = 0;
