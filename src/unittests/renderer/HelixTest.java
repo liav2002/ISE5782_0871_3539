@@ -55,7 +55,9 @@ public class HelixTest {
     )
             .setVPSize(6, 6)
             .setVPDistance(50)
-            .setFPDistance(10)
+            .setDebugPrint(0.1)
+            .setMultithreading(3)
+            .setFPDistance(5)
             .setApertureSize(0.2);
 
     @Test
