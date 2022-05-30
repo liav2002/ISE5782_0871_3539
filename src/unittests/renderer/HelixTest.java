@@ -55,8 +55,7 @@ public class HelixTest {
     )
             .setVPSize(6, 6)
             .setVPDistance(50)
-            .setFPDistance(20)
-            .setApertureSize(0.2);
+            .setNumOfRays(50);
 
     @Test
     void testGIF() throws IOException {
@@ -90,7 +89,7 @@ public class HelixTest {
         for (double i = 0; i < Math.PI * 2; i += jump) {
             Instant start = Instant.now();
             s = getSnapshot(i);
-            camera.setImageWriter(new ImageWriter(file, 1000, 1000))
+            camera.setImageWriter(new ImageWriter(file, 500, 500))
                     .setRayTracer(new RayTracerBasic(s))
                     .renderImage()
                     .writeToImage();
