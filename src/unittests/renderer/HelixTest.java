@@ -55,7 +55,7 @@ public class HelixTest {
     )
             .setVPSize(6, 6)
             .setVPDistance(50)
-            .setFPDistance(50)
+            .setFPDistance(20)
             .setApertureSize(0.2);
 
     @Test
@@ -90,7 +90,7 @@ public class HelixTest {
         for (double i = 0; i < Math.PI * 2; i += jump) {
             Instant start = Instant.now();
             s = getSnapshot(i);
-            camera.setImageWriter(new ImageWriter(file, 500, 500))
+            camera.setImageWriter(new ImageWriter(file, 1000, 1000))
                     .setRayTracer(new RayTracerBasic(s))
                     .renderImage()
                     .writeToImage();
@@ -110,8 +110,8 @@ public class HelixTest {
         double rad = 0.15;  // the radios of the helix
         double size = 0.02;  // the size of sphere
         double length = 25;  // the total length
-        double distance = 0.1; // from point to point
-        int lines = 6 * 1;  // the number of sphere between 2 cylinders
+        double distance = 0.05; // from point to point
+        int lines = 6 * 3;  // the number of sphere between 2 cylinders
         Scene s = scene.clone();  // copy the existing scene
 
         int i = 0;
