@@ -404,7 +404,7 @@ public class Camera {
             int nY = imageWriter.getNy();
 
             // Checking if we try to use threads.
-            if (threadsCount == 0) {
+            if (threadsCount == 1) {
                 //rendering image without using of threads (by-default)
                 for (int i = 0; i < nX; i++) {
                     System.out.println(i);
