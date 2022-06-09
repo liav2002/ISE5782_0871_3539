@@ -295,14 +295,17 @@ public class Camera {
             // The above code is constructing the rays that will be used to analise the scene.
             rays = this.constructRayAnalising(imageWriter.getNx(), imageWriter.getNy(), c, r);
 
-            // Checking if the aperture size is zero, if so, it returns the average color of the rays, otherwise it returns
+            // Checking if the aperture size is zero, if so,
+            // it returns the average color of the rays, otherwise it returns
             // the averaged beam color of the rays.
-            return isZero(this.apertureSize) ? AverageColor(rays) : averagedBeamColor(constructRay(imageWriter.getNx(), imageWriter.getNy(), c, r));
+            return isZero(this.apertureSize) ? AverageColor(rays) :
+                    averagedBeamColor(constructRay(imageWriter.getNx(), imageWriter.getNy(), c, r));
         } else {
             // Constructing a ray from the camera through the pixel (c,r)
             Ray ray = constructRay(imageWriter.getNx(), imageWriter.getNy(), c, r);
 
-            // It checks if the aperture size is zero, if it is, it will return the color of the ray, if not, it will return
+            // It checks if the aperture size is zero, if it is,
+            // it will return the color of the ray, if not, it will return
             // the average color of the beam.
             return isZero(this.apertureSize) ? rayTracer.traceRay(ray) : averagedBeamColor(ray);
         }
@@ -315,7 +318,8 @@ public class Camera {
 
         // Checking if the aperture size is zero, if so, it returns the average color of the rays, otherwise it returns
         // the averaged beam color of the rays.
-        return isZero(this.apertureSize) ? AverageColor(rays) : averagedBeamColor(constructRay(imageWriter.getNx(), imageWriter.getNy(), c, r));
+        return isZero(this.apertureSize) ? AverageColor(rays) :
+                averagedBeamColor(constructRay(imageWriter.getNx(), imageWriter.getNy(), c, r));
     }
 
     /**
@@ -339,10 +343,10 @@ public class Camera {
             apertureRay = new Ray(aperturePoint, focalPoint.subtract(aperturePoint));
             apertureColor = rayTracer.traceRay(apertureRay);
             // Adding the color of the ray to the average color.
-            averageColor = averageColor.add(apertureColor.reduce(numOfPoints));
+            averageColor = averageColor.add(apertureColor);
         }
 
-        return averageColor;
+        return averageColor.reduce(numOfPoints);
     }
 
 
