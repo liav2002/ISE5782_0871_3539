@@ -407,7 +407,6 @@ public class Camera {
             if (threadsCount == 1) {
                 //rendering image without using of threads (by-default)
                 for (int i = 0; i < nX; i++) {
-                    System.out.println(i);
                     for (int j = 0; j < nY; j++) {
                         Color pixelColor = castRay(j, i);
                         imageWriter.writePixel(j, i, pixelColor);

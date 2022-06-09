@@ -55,10 +55,7 @@ public class HelixTest {
     )
             .setVPSize(6, 6)
             .setVPDistance(50)
-            .setDebugPrint(0.1)
-            .setMultithreading(3)
-            .setFPDistance(5)
-            .setApertureSize(0.2);
+            .setMultithreading(8);
 
     @Test
     void testGIF() throws IOException {
@@ -79,7 +76,7 @@ public class HelixTest {
                         .setKl(4E-5).setKq(2E-7));
 
         Scene s;
-        int frames = 1; // the number of frames
+        int frames = 60; // the number of frames
         double jump = Math.PI * 2 / frames;
 
         String pwd = Paths.get("").toAbsolutePath() + "\\images\\";
@@ -92,7 +89,7 @@ public class HelixTest {
         for (double i = 0; i < Math.PI * 2; i += jump) {
             Instant start = Instant.now();
             s = getSnapshot(i);
-            camera.setImageWriter(new ImageWriter(file, 500, 500))
+            camera.setImageWriter(new ImageWriter(file, 1000, 1000))
                     .setRayTracer(new RayTracerBasic(s))
                     .renderImage()
                     .writeToImage();
@@ -112,8 +109,8 @@ public class HelixTest {
         double rad = 0.15;  // the radios of the helix
         double size = 0.02;  // the size of sphere
         double length = 25;  // the total length
-        double distance = 0.05; // from point to point
-        int lines = 6 * 3;  // the number of sphere between 2 cylinders
+        double distance = 0.1; // from point to point
+        int lines = 6 * 1;  // the number of sphere between 2 cylinders
         Scene s = scene.clone();  // copy the existing scene
 
         int i = 0;
@@ -139,7 +136,7 @@ public class HelixTest {
             if (i++ % lines == 0)
                 s.geometries.add(new Cylinder(0.005, hel2, hel1).setEmission(new Color(WHITE)));
         }
-
+        System.out.println("Rendering");
         return s;
     }
 }
